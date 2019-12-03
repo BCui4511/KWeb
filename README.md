@@ -1,2 +1,2 @@
 # KWeb
-web project for Riplet's K function
+web project for Ripley's K function
