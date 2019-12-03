@@ -1,12 +1,12 @@
-###前提，请安装好node和npm
+### 前提，请安装好node和npm
 
-###第一步，clone代码到本地
+### 第一步，clone代码到本地
 git clone https://github.com/BCui4511/KWeb.git
 
-###第二步，安装依赖
+### 第二步，安装依赖
 npm i
 
-###第三步，运行示例代码
+### 第三步，运行示例代码
 npm start
 
 
