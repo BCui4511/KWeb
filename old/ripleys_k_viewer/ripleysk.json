@@ -1,0 +1,40 @@
+{
+  "title": "Demo", 
+  "url": "http://192.168.200.179:29512", 
+  "latlonbox": {
+    "max": {
+      "location": [
+        33.55819096367597, 
+        116.26505126953125
+      ]
+    }, 
+    "min": {
+      "location": [
+        28.505829569662966, 
+        108.57698974609375
+      ]
+    }
+  }, 
+  "tilesurl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png", 
+  "heatmapmaxlevel": 25, 
+  "div": {
+    "date": {
+      "opacity": 0.8, 
+      "bottom": "1em", 
+      "height": "10em", 
+      "width": "75%", 
+      "z-index": 1, 
+      "position": "absolute", 
+      "background-color": "#555", 
+      "left": "1ch"
+    }, 
+    "location": {
+      "padding": 0, 
+      "width": "100%", 
+      "z-index": 0, 
+      "float": "left", 
+      "margin": 0, 
+      "height": "100%"
+    }
+  }
+}
