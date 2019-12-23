@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import Life from './demo/Live';
+import App from './App';
 // const kType = {
 //   SPACE_K: 1,
 //   ST_K: 2,
 // };
 
-ReactDOM.render(<Life />, document.getElementById('submit_table'));
+ReactDOM.render(<App />, document.getElementById('main'));
 
 
 // data table

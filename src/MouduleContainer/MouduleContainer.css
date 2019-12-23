@@ -1,0 +1,29 @@
+.moudle {
+  display: inline-block;
+  width: auto;
+  position: relative;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 5px 10px 5px 10px;
+  padding: 5px;
+  text-align: center;
+}
+.unshow {
+  display: none;
+}
+.fix-width {
+  width: 300px;
+}
+.title {
+  width: 100px;
+  font-size: 8px;
+}
+.close-button {
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 7px;
+}
+.margin-top:first-child {
+  margin-top: 5px;
+}
