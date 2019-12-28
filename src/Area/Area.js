@@ -4,7 +4,7 @@ import { DatePicker } from 'antd';
 export default class Area extends React.Component {
   render() {
     return <div>
-        <p>123</p>
+        <p>点数据概况</p>
         <DatePicker />
       </div>
   }
