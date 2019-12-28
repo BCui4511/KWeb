@@ -2,7 +2,9 @@ import React from 'react';
 import './App.css';
 import Area from './Area/Area';
 import Life from './demo/Live';
+import Parameter from './Parameter/Parameter';
 import MouduleContainer from './MouduleContainer/MouduleContainer';
+
 
 function App() {
   return (
@@ -12,6 +14,9 @@ function App() {
       </MouduleContainer>
       <MouduleContainer left="true" title="点数据概况" >
         <Area />
+      </MouduleContainer>
+      <MouduleContainer left="true" title="参数选择" >
+        <Parameter />
       </MouduleContainer>
     </div>
   );
