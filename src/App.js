@@ -5,6 +5,7 @@ import VisualController from './VisualController/VisualController';
 import ModuleContainer from './ModuleContainer/ModuleContainer';
 import Parameter from './Parameter/Parameter';
 import DataSource from './DataSource/DataSource';
+import DataRange from './DataRange/DataRange'
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
       <div className="right-moudles">
         <ModuleContainer  right="true" title="数据源" >
           <DataSource />
+        </ModuleContainer>
+        <ModuleContainer  right="true" title="研究范围" >
+          <DataRange />
         </ModuleContainer>
         <ModuleContainer  right="true" title="参数选择" >
           <Parameter />

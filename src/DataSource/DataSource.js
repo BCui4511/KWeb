@@ -27,7 +27,7 @@ export default class DataSource extends React.Component {
 
     return <div>
         <h3>数据源</h3>
-        <div className="option-name">尺度选择</div>
+        <div className="option-name">选择数据</div>
         <Select className="data-select" placeholder={dataSources[0]}>
           {
             dataSources.length && dataSources.map((item, index) => (
