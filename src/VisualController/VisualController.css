@@ -1,0 +1,52 @@
+.option-name {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.module-slider {
+  float: right;
+  width: 200px;
+}
+
+.color-form {
+  float: right;
+  margin: -19px 7px 0 0;
+  width: 200px;
+  height: 100px;
+}
+
+.attri-select {
+  width: 110px;
+  margin: 1px 0 0 15px !important;
+}
+
+.red.ant-switch-checked {
+  background-color: #ff0000 !important;
+}
+
+.green.ant-switch-checked {
+  background-color: #00ff00 !important;
+}
+
+.blue.ant-switch-checked {
+  background-color: #0000ff !important;
+}
+
+.dimension {
+  margin: -43px 0 0 50px !important;
+}
+
+.icon2d {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  left: 35px;
+}
+
+.icon3d {
+  width: 19px;
+  height: 19px;
+  position: relative;
+  left: 20px;
+  top: -20px;
+}
