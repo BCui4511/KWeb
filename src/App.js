@@ -4,6 +4,7 @@ import DataIntro from './DataIntro/DataIntro';
 import VisualController from './VisualController/VisualController';
 import ModuleContainer from './ModuleContainer/ModuleContainer';
 import Parameter from './Parameter/Parameter';
+import DataSource from './DataSource/DataSource';
 
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
         </ModuleContainer>
       </div>
       <div className="right-moudles">
+      <ModuleContainer  title="参数选择" >
+          <DataSource />
+        </ModuleContainer>
         <ModuleContainer  title="参数选择" >
           <Parameter />
         </ModuleContainer>
