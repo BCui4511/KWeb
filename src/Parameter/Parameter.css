@@ -1,6 +1,9 @@
+#Title{
+    font-size: 17px;
+}
 .Parameter{
     text-align:left;
-    margin-left:15px;
+    margin-left:5px;
     /* margin-top:10px; */
 }
 .Parameter-Select{
@@ -12,8 +15,4 @@
     position:absolute;
     left: 200px;
     /* top:15px; */
-}
-.Txt{
-    line-height: 21px;
-
 }
