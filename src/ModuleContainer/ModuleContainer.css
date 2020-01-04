@@ -27,7 +27,3 @@
 .margin-top:first-child {
   margin-top: 5px;
 }
-.right {
-  position: relative;
-  left: 200px;
-}

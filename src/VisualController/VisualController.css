@@ -16,7 +16,7 @@
 }
 
 .attri-select {
-  width: 100px;
+  width: 110px;
   margin: 1px 0 0 15px !important;
 }
 
@@ -33,5 +33,20 @@
 }
 
 .dimension {
-  margin: -43px 0 0 0 !important;
+  margin: -43px 0 0 50px !important;
+}
+
+.icon2d {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  left: 35px;
+}
+
+.icon3d {
+  width: 19px;
+  height: 19px;
+  position: relative;
+  left: 20px;
+  top: -20px;
 }

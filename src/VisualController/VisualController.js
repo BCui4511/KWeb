@@ -1,6 +1,8 @@
 import React from 'react'
 import { Slider, Switch, Select } from 'antd';
 import './VisualController.css';
+import icon2d from './img/2d.png';
+import icon3d from './img/3d.png';
 
 export default class VisualController extends React.Component {
   constructor(props) {
@@ -24,7 +26,7 @@ export default class VisualController extends React.Component {
       <div className="option-name">颜色设置</div>
       <div className="color-form">
         <Switch className="red" checkedChildren="红" unCheckedChildren="红" defaultChecked />
-        <Select className="attri-select">
+        <Select className="attri-select" placeholder={attriList[0]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
@@ -32,7 +34,7 @@ export default class VisualController extends React.Component {
           }
         </Select><br/>
         <Switch className="green" checkedChildren="绿" unCheckedChildren="绿" defaultChecked />
-        <Select className="attri-select">
+        <Select className="attri-select" placeholder={attriList[1]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
@@ -40,7 +42,7 @@ export default class VisualController extends React.Component {
           }
         </Select><br/>
         <Switch className="blue" checkedChildren="蓝" unCheckedChildren="蓝" defaultChecked />
-        <Select className="attri-select">
+        <Select className="attri-select" placeholder={attriList[2]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
@@ -48,7 +50,10 @@ export default class VisualController extends React.Component {
           }
         </Select><br/>
       </div>
-      <div style={{marginTop: "100px"}} className="option-name">维度选择</div><Switch className="dimension" checkedChildren="2D" unCheckedChildren="3D" defaultChecked />
+      <div style={{margin: "100px 0 0 5px"}} className="option-name">维度选择</div>
+      <img src={icon2d} alt="2d icon" className="icon2d"/>
+      <Switch className="dimension" checkedChildren="3D" unCheckedChildren="2D" defaultChecked />
+      <img src={icon3d} alt="3d icon" className="icon3d"/>
     </div>
   }
 }
