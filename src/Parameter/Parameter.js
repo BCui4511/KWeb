@@ -71,7 +71,7 @@ export default class Parameter extends React.Component {
             <p></p>
             <div className="Parameter">空间步长
             <InputNumber min={1} max={100000} defaultValue={20} className="Parameter-Select" />
-            <Select defaultValue="m" disabled={STK_isdisabled} className="Parameter-Unit-Select" >
+            <Select defaultValue="m"  className="Parameter-Unit-Select" >
                 <Option value="m">m</Option>
                 <Option value="km">km</Option>
             </Select>
@@ -79,7 +79,7 @@ export default class Parameter extends React.Component {
             <p></p>
             <div className="Parameter">时间步长
             <InputNumber min={1} max={100000} defaultValue={1} disabled={STK_isdisabled} className="Parameter-Select" />
-            <Select defaultValue="month"  className="Parameter-Unit-Select" >
+            <Select defaultValue="month" disabled={STK_isdisabled} className="Parameter-Unit-Select" >
                 <Option value="day">day</Option>
                 <Option value="month">month</Option>
             </Select>
