@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Area from './Area/Area';
-import Life from './demo/Live';
+import VisualController from './VisualController/VisualController';
 import ModuleContainer from './ModuleContainer/ModuleContainer';
 import Parameter from './Parameter/Parameter';
 
@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <ModuleContainer left="true" title="点数据展示模块" >
-        <Life />
+        <VisualController />
       </ModuleContainer>
       <ModuleContainer left="true" title="点数据概况" >
         <Area />
