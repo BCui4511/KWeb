@@ -19,10 +19,10 @@ function App() {
         </ModuleContainer>
       </div>
       <div className="right-moudles">
-      <ModuleContainer  title="参数选择" >
+        <ModuleContainer  right="true" title="数据源" >
           <DataSource />
         </ModuleContainer>
-        <ModuleContainer  title="参数选择" >
+        <ModuleContainer  right="true" title="参数选择" >
           <Parameter />
         </ModuleContainer>
       </div>

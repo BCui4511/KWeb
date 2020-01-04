@@ -27,3 +27,6 @@
 .margin-top:first-child {
   margin-top: 5px;
 }
+.right {
+  float: right;
+}
