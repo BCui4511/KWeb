@@ -3,6 +3,8 @@ import './App.css';
 import Area from './Area/Area';
 import Life from './demo/Live';
 import ModuleContainer from './ModuleContainer/ModuleContainer';
+import Parameter from './Parameter/Parameter';
+
 
 function App() {
   return (
@@ -12,6 +14,9 @@ function App() {
       </ModuleContainer>
       <ModuleContainer left="true" title="点数据概况" >
         <Area />
+      </ModuleContainer>
+      <ModuleContainer left="true" title="参数选择" >
+        <Parameter />
       </ModuleContainer>
     </div>
   );
