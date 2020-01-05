@@ -1,18 +1,13 @@
-#Title{
-    font-size: 17px;
-}
-.Parameter{
+.parameter-option-name{
     text-align:left;
-    margin-left:5px;
-    /* margin-top:10px; */
+    margin: 10px 0 20px 5px;
 }
-.Parameter-Select{
+.parameter-select{
     position:absolute;
     left: 100px;
-    /* top:15px; */
 }
-.Parameter-Unit-Select{
+.parameter-unit-select{
+
     position:absolute;
     left: 200px;
-    /* top:15px; */
 }
