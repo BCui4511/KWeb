@@ -30,7 +30,7 @@ export default class DataIntro extends React.Component {
         {
             name: '企业数据',
             type: 'pie',
-            radius: '35%',
+            radius: '40%',
             center: ['50%', '60%'],
             data: [
                 {value: 33524, name: '第一产业'},
