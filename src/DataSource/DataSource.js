@@ -37,7 +37,7 @@ export default class DataSource extends React.Component {
         </Select><br/>
         <div className="option-name">数据上传</div>
         <Upload >
-          <Button>
+          <Button style={{width: '150px'}}>
             <Icon type="upload" /> Click to Upload
           </Button>
         </Upload>
