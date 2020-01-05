@@ -14,14 +14,14 @@ export default class ModuleContainer extends React.Component {
     });
   };
   render() {
-    const {autowidth, children, title} = this.props;
+    const {autowidth, children, title, right} = this.props;
     const {isShow} = this.state;
     return <div className="margin-top">
       <div className={`moudle ${autowidth ? '' : 'fix-width'} ${isShow ? '' : 'unshow'}` }>
         <div className="close-button" onClick={this.changeShowTag}>关闭</div>
         {children}
       </div>
-      <div className={`title moudle ${isShow ? 'unshow' :''}`} onClick={this.changeShowTag}>{title}</div> 
+      <div className={`title moudle ${isShow ? 'unshow' :''} ${right ? 'right' : ''}`} onClick={this.changeShowTag}>{title}</div> 
       </div>
   }
 }

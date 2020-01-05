@@ -4,7 +4,7 @@
   position: relative;
   border: 1px solid black;
   border-radius: 10px;
-  margin: 5px 10px 5px 10px;
+  margin: 3px 5px 3px 5px;
   padding: 5px;
   text-align: center;
 }
@@ -25,5 +25,9 @@
   right: 7px;
 }
 .margin-top:first-child {
-  margin-top: 5px;
+  margin-top: 3px;
+}
+.right {
+  float: right;
+  margin-left: 200px;
 }
