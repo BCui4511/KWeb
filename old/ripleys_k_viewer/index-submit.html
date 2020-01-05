@@ -43,8 +43,8 @@
 
   <script src="NanocubeLayer.js"></script>
   <script src="Timeseries.js"></script>
-  <script src="GroupedBarChart.js"></script>
-  <script src="MultiDonutChart.js"></script>
+  <!-- <script src="GroupedBarChart.js"></script> -->
+  <!-- <script src="MultiDonutChart.js"></script> -->
 
   <script src="QueryConstraint.js"></script>
   <script src="Variables.js"></script>
@@ -56,8 +56,8 @@
   <script src="50.js"></script>
   <script src="42.js"></script>
 
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+  <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script> -->
+  <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script> -->
 
   <!-- Main -->
   <script>
@@ -72,15 +72,58 @@
         }
       }
     }
+        var cfg={
+      "title": "finalImputation.csv", 
+      "url": "http://192.168.200.179:29512", 
+      "latlonbox": {
+        "max": {
+          "location": [
+            54.74858432186842, 
+            136.3480224609375
+          ]
+        }, 
+        "min": {
+          "location": [
+            12.33271773580635, 
+            82.56768798828125
+          ]
+        }
+      }, 
+      "tilesurl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png", 
+      "heatmapmaxlevel": 25, 
+      "div": {
+        "date": {
+          "opacity": 0.8, 
+          "bottom": "1em", 
+          "height": "10em", 
+          "width": "75%", 
+          "z-index": 1, 
+          "position": "absolute", 
+          "background-color": "#555", 
+          "left": "1ch"
+        }, 
+        "location": {
+          "padding": 0, 
+          "width": "100%", 
+          "z-index": 0, 
+          "float": "left", 
+          "margin": 0, 
+          "height": "100%"
+        }
+      }
+    };
+    
 
     $(function () {
-      var conf = getURLParameter('config') ||
-        window.location.hash.substring(1);
+      initPage(cfg);
+      initNanocube(cfg);
+      // var conf = getURLParameter('config') ||
+      //   window.location.hash.substring(1);
 
-      $.getJSON(conf + ".json", function (config) {
-        initPage(config);
-        initNanocube(config);
-      }).fail(function () { throw new Error("Fail to get or parse " + conf); });
+      // $.getJSON(conf + ".json", function (config) {
+      //   initPage(config);
+      //   initNanocube(config);
+      // }).fail(function () { throw new Error("Fail to get or parse " + conf); });
     });
 
     //autohide navbar when mouseout
