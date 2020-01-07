@@ -41,6 +41,7 @@
   height: 15px;
   position: relative;
   left: 35px;
+  top: -2px;
 }
 
 .icon3d {
@@ -48,5 +49,5 @@
   height: 19px;
   position: relative;
   left: 20px;
-  top: -20px;
+  top: -18px;
 }

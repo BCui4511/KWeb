@@ -12,26 +12,16 @@ export default class DataIntro extends React.Component {
 
   getOption =()=> {
     let option = {
-      title: {
-        text: '数据概况',
-        left: 'center',
-        top: 20,
-    },
     tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['第一产业', '第二产业', '第三产业']
     },
     series: [
         {
             name: '企业数据',
             type: 'pie',
-            radius: '40%',
-            center: ['50%', '60%'],
+            radius: '55%',
+            center: ['50%', '45%'],
             data: [
                 {value: 33524, name: '第一产业'},
                 {value: 31023, name: '第二产业'},
@@ -52,7 +42,8 @@ export default class DataIntro extends React.Component {
 
   render() {
     return <div>
-        <ReactEcharts option={this.getOption()} theme="Imooc"  style={{height:'300px'}}/>
+        <h3>数据概况</h3>
+        <ReactEcharts option={this.getOption()} theme="Imooc"  style={{height:'200px'}}/>
       </div>
   }
 }
