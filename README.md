@@ -2,7 +2,7 @@
 web project for Ripley's K function
 
 ## demo运行截图
-![demo](./public/demo.png)
+![demo](https://github.com/BCui4511/KWeb/blob/czs_1203_core/public/demo.png)
 
 ### 前提，请安装好node和npm
 
