@@ -1,3 +1,9 @@
+# KWeb
+web project for Ripley's K function
+
+## demo运行截图
+![demo](./public/demo.png)
+
 ### 前提，请安装好node和npm
 
 ### 第一步，clone代码到本地
