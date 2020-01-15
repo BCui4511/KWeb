@@ -7,6 +7,7 @@ import Parameter from './Parameter/Parameter';
 import DataSource from './DataSource/DataSource';
 import DataRange from './DataRange/DataRange';
 import CalcuInfo from './CalcuInfo/CalcuInfo';
+import DateStatistic from "./DateStatistic/DateStatistic";
 
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
         </ModuleContainer>
         <ModuleContainer  title="点数据概况" >
           <DataIntro />
+        </ModuleContainer>
+        <ModuleContainer  title="时间统计" autowidth="true" dark="true">
+          <DateStatistic />
         </ModuleContainer>
       </div>
       <div className="right-moudles">

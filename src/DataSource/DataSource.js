@@ -4,7 +4,7 @@ import { Select, Upload, Button, Icon } from 'antd';
 
 export default class DataSource extends React.Component {
   render() {
-    const dataSources = ['重庆市企业POI', '全国企业POI', '...'];
+    const dataSources = ['全国企业POI', '重庆市企业POI', '...'];
 
     // 上传
     // const props = {
