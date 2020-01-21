@@ -8,11 +8,13 @@ import DataSource from './DataSource/DataSource';
 import DataRange from './DataRange/DataRange';
 import CalcuInfo from './CalcuInfo/CalcuInfo';
 import DateStatistic from "./DateStatistic/DateStatistic";
+import Map from "./Map/Map";
 
 
 function App() {
   return (
     <div>
+      <Map />
       <div className="left-moudles">
         <ModuleContainer  title="点数据展示模块" >
           <VisualController />
@@ -25,10 +27,10 @@ function App() {
         </ModuleContainer>
       </div>
       <div className="right-moudles">
-        <ModuleContainer  right="true" title="数据源" >
+        <ModuleContainer  right="true" title="数据源" close="true">
           <DataSource />
         </ModuleContainer>
-        <ModuleContainer  right="true" title="研究范围" >
+        <ModuleContainer  right="true" title="研究范围" close="true">
           <DataRange />
         </ModuleContainer>
         <ModuleContainer  right="true" title="参数选择" >

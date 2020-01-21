@@ -5,7 +5,7 @@ export default class ModuleContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isShow: true,
+      isShow: props.close ? false : true,
     };
   };
   changeShowTag=()=>{
