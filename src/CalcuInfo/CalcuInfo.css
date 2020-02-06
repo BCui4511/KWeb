@@ -1,3 +1,7 @@
 .calcuInfo .ant-btn {
   color: #1890ff !important;
 }
+.calcuInfo .cal-progress {
+  width: 250px;
+  margin-left: 30px;
+}
