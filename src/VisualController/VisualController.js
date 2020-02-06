@@ -8,8 +8,34 @@ export default class VisualController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isRShow: true,
+      isGShow: true,
+      isBShow: true,
+      RContent: 1,
+      GContent: 2,
+      BContent: 3,
     };
   }
+
+  changeDimension = (isChecked) => {
+    this.props.changeDimension(isChecked);
+  }
+
+  changeColor = () => {
+    const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.state;
+    this.props.changeColor({isRShow, isGShow, isBShow, RContent, GContent, BContent});
+  }
+
+  changeRS = (isChecked) => {
+    this.setState({isRShow: isChecked}, this.changeColor);
+  }
+  changeGS = (isChecked) => {
+    this.setState({isGShow: isChecked}, this.changeColor);
+  }
+  changeBS = (isChecked) => {
+    this.setState({isBShow: isChecked}, this.changeColor);
+  }
+
 
   render() {
     // 获取滑块范围
@@ -22,10 +48,10 @@ export default class VisualController extends React.Component {
     return <div>
       <h3>点数据展示模块</h3>
       <div className="option-name">尺度选择</div>
-      <Slider className="module-slider" max={slideParam.max} min={slideParam.min} step={slideParam.step} />
+      <Slider className="module-slider" max={slideParam.max} min={slideParam.min} step={slideParam.step} defaultValue={10}/>
       <div className="option-name">颜色设置</div>
       <div className="color-form">
-        <Switch className="red" checkedChildren="红" unCheckedChildren="红" defaultChecked />
+        <Switch className="red" checkedChildren="红" unCheckedChildren="红" defaultChecked onChange={this.changeRS}/>
         <Select className="attri-select" placeholder={attriList[0]}>
           {
             attriList.length && attriList.map((item, index) => (
@@ -33,7 +59,7 @@ export default class VisualController extends React.Component {
             )
           }
         </Select><br/>
-        <Switch className="green" checkedChildren="绿" unCheckedChildren="绿" defaultChecked />
+        <Switch className="green" checkedChildren="绿" unCheckedChildren="绿" defaultChecked onChange={this.changeGS}/>
         <Select className="attri-select" placeholder={attriList[1]}>
           {
             attriList.length && attriList.map((item, index) => (
@@ -41,7 +67,7 @@ export default class VisualController extends React.Component {
             )
           }
         </Select><br/>
-        <Switch className="blue" checkedChildren="蓝" unCheckedChildren="蓝" defaultChecked />
+        <Switch className="blue" checkedChildren="蓝" unCheckedChildren="蓝" defaultChecked onChange={this.changeBS}/>
         <Select className="attri-select" placeholder={attriList[2]}>
           {
             attriList.length && attriList.map((item, index) => (
@@ -52,7 +78,7 @@ export default class VisualController extends React.Component {
       </div>
       <div style={{margin: "100px 0 0 5px"}} className="option-name">维度选择</div>
       <img src={icon2d} alt="2d icon" className="icon2d"/>
-      <Switch className="dimension" checkedChildren="3D" unCheckedChildren="2D" defaultChecked />
+      <Switch className="dimension" checkedChildren="3D" unCheckedChildren="2D" defaultChecked onChange={this.changeDimension}/>
       <img src={icon3d} alt="3d icon" className="icon3d"/>
     </div>
   }
