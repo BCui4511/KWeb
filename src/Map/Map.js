@@ -12,8 +12,8 @@ const gridData = jsonData.features;
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmlsbGN1aSIsImEiOiJjampsYjZpbzQwcm1mM3FwZmppejRzMmNiIn0.Ch9L9-zpzaC21Vm8yxoWpg';
 
 const initialViewState = {
-  longitude: 106.37850352125793,
-  latitude: 29.29068803096337,
+  longitude: 106.5,
+  latitude: 29.5,
   zoom: 9,
   pitch: 0,
   bearing: 0

@@ -7,8 +7,9 @@ import Parameter from './Parameter/Parameter';
 import DataSource from './DataSource/DataSource';
 import DataRange from './DataRange/DataRange';
 import CalcuInfo from './CalcuInfo/CalcuInfo';
-import DateStatistic from "./DateStatistic/DateStatistic";
-import Map from "./Map/Map";
+import DateStatistic from './DateStatistic/DateStatistic';
+import Result from './Result/Result';
+import Map from './Map/Map';
 
 
 export default class App extends React.Component {
@@ -62,6 +63,9 @@ export default class App extends React.Component {
           </ModuleContainer>
           <ModuleContainer  right="true" title="计算信息" >
             <CalcuInfo />
+          </ModuleContainer>
+          <ModuleContainer  right="true" title="结果展示" >
+            <Result />
           </ModuleContainer>
         </div>
       </div>
