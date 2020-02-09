@@ -60,7 +60,7 @@ export default class Map extends React.Component {
 
   getFillColorArray = (d) => {
     const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const r = isRShow ? d * 255 / 5 + 50 : 0;
+    const r = isRShow ? d * 255 / 15 + 50 : 0;
     const g = isGShow ?  d * 15 + 255 * Math.random() : 0;
     const b = isBShow ? 255-d * 255 / 15: 0;
     return [r, g, b, 180];
