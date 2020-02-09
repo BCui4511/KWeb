@@ -1,5 +1,5 @@
 import React from 'react';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import './Parameter.css';
 import { Select } from 'antd';
 import { InputNumber } from 'antd';

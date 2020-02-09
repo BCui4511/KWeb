@@ -60,9 +60,9 @@ export default class Map extends React.Component {
 
   getFillColorArray = (d) => {
     const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const r = isRShow ? d * 255 / 30 : 0;
-    const g = isGShow ?  d + 80 : 0;
-    const b = isBShow ? 255-d * 255 / 10 : 0;
+    const r = isRShow ? d * 255 / 5 + 50 : 0;
+    const g = isGShow ?  d * 15 + 255 * Math.random() : 0;
+    const b = isBShow ? 255-d * 255 / 15: 0;
     return [r, g, b, 180];
   } ;
 
@@ -139,7 +139,7 @@ export default class Map extends React.Component {
           controller={true}
           layers={this.state.layers}
           >
-          <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
+          <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} mapStyle={'mapbox://styles/mapbox/dark-v9'}/>
           { this._renderTooltip() }
           </DeckGL>
         </div>

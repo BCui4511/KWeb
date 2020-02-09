@@ -23,9 +23,9 @@ export default class DataIntro extends React.Component {
             radius: '55%',
             center: ['50%', '45%'],
             data: [
-                {value: 33524, name: '第一产业', itemStyle: {color: '#ff0000'}},
-                {value: 31023, name: '第二产业', itemStyle: {color: '#00ff00'}},
-                {value: 23544, name: '第三产业', itemStyle: {color: '#0000ff'}},
+                {value: 33524, name: '第一产业', itemStyle: {color: '#ff3500'}},
+                {value: 31023, name: '第二产业', itemStyle: {color: '#aef100'}},
+                {value: 23544, name: '第三产业', itemStyle: {color: '#104ba9'}},
             ],
             emphasis: {
                 itemStyle: {

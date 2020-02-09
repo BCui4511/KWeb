@@ -355,6 +355,28 @@ module.exports = function(webpackEnv) {
           ],
           include: paths.appSrc,
         },
+        // change the antd style
+        {
+          test: /\.less$/,
+          //include: paths.appSrc,
+          use: [{
+            loader: "style-loader" // creates style nodes from JS strings
+          }, {
+            loader: "css-loader" // translates CSS into CommonJS
+          }, {
+            loader: "less-loader", // compiles Less to CSS
+            options: {
+              sourceMap: true,
+              modifyVars: {
+                'primary-color': '#0051d9',
+                'link-color': '#c9d6de',
+                'text-color': 'rgba(0, 0, 0, 0.65)',
+                'border-radius-base': '5px',
+              },
+              javascriptEnabled: true,
+            }
+          }]
+        },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -386,7 +408,7 @@ module.exports = function(webpackEnv) {
                   ["import", {
                     "libraryName": "antd",
                     "libraryDirectory": "es",
-                    "style": "css" 
+                    "style": true
                   }],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
@@ -511,7 +533,7 @@ module.exports = function(webpackEnv) {
               // its runtime that would otherwise be processed through "file" loader.
               // Also exclude `html` and `json` extensions so they get processed
               // by webpacks internal loaders.
-              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.less$/, /\.html$/, /\.json$/],
               options: {
                 name: 'static/media/[name].[hash:8].[ext]',
               },

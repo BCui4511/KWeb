@@ -7,7 +7,7 @@
   margin: 2px 5px 2px 5px;
   padding: 5px;
   text-align: center;
-  background-color: white;
+  background-color: rgba(0,0,0,0.4);
   z-index: 1;
 }
 .unshow {
@@ -25,6 +25,7 @@
   z-index: 2;
   top: 5px;
   right: 7px;
+  color: white;
 }
 .margin-top:first-child {
   margin-top: 2px;
@@ -34,6 +35,10 @@
   margin-left: 200px;
 }
 .dark{
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,0.4);
+  color: white;
+}
+
+.margin-top, .margin-top h3{
   color: white;
 }

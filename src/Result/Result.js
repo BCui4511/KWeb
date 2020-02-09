@@ -60,7 +60,13 @@ export default class Result extends React.Component {
         splitLine: {
           show: false
         },
-        boundaryGap: false
+        boundaryGap: false,
+        axisLine:{
+          lineStyle:{
+              color:'#ffffff',
+          }
+        }, 
+
       },
       yAxis: {
         axisLabel: {
@@ -78,7 +84,12 @@ export default class Result extends React.Component {
         splitNumber: 3,
         splitLine: {
           show: false
-        }
+        },
+        axisLine:{
+          lineStyle:{
+              color:'#ffffff',
+          }
+        },
       },
       series: [{
         name: 'L',

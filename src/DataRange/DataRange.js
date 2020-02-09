@@ -19,7 +19,7 @@ export default class DataRange extends React.Component {
         <div className="option-name">空间范围</div><br/>
         <Radio.Group >
         <Radio style={radioStyle} value={1}>
-          自定义范围
+          <span className='radio-text'>自定义范围</span>
           <Select className="data-select" placeholder={subRanges[0]}>
           {
             subRanges.length && subRanges.map((item, index) => (
@@ -29,17 +29,17 @@ export default class DataRange extends React.Component {
         </Select>
         </Radio>
         <Radio style={radioStyle} value={2}>
-          不限
+        <span className='radio-text'>不限</span>
         </Radio>
       </Radio.Group><br/>
       <div className="option-name">时间范围</div><br/>
         <Radio.Group >
         <Radio style={radioStyle} value={1}>
-          自定义范围
+        <span className='radio-text'>自定义范围</span>
           <RangePicker style={{width: '185px', marginLeft: '3px'}} format={dateFormat}/>
         </Radio>
         <Radio style={radioStyle} value={2}>
-          不限
+        <span className='radio-text'>不限</span>
         </Radio>
       </Radio.Group>
 
