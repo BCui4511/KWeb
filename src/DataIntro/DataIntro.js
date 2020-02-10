@@ -12,30 +12,94 @@ export default class DataIntro extends React.Component {
 
   getOption =()=> {
     let option = {
-    tooltip: {
+      tooltip: {
         trigger: 'item',
         formatter: '{b} <br/> {c} ({d}%)'
-    },
-    series: [
+      },
+      series: [
         {
-            name: '企业数据',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '45%'],
-            data: [
-                {value: 33524, name: '第一产业', itemStyle: {color: '#ff3500'}},
-                {value: 31023, name: '第二产业', itemStyle: {color: '#aef100'}},
-                {value: 23544, name: '第三产业', itemStyle: {color: '#104ba9'}},
-            ],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
+          name: '企业数据',
+          type: 'pie',
+          radius: '55%',
+          center: ['50%', '45%'],
+          labelLine: {
+            lineStyle: {
+              color: '#ffffff'
             }
+          },
+          data: [
+            {
+              value: 33524,
+              name: '第一产业',
+              label: {
+                color: '#ffffff',
+              },
+              itemStyle: {
+                color: {
+                  type: 'radial',
+                  x: -0.1,
+                  y: 0.6,
+                  r: 1,
+                  colorStops: [{
+                    offset: 0, color: 'rgba(255,0,0,0.8)' // 0% 处的颜色
+                  }, {
+                    offset: 1, color: 'rgba(255,0,0,0.2)' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              }
+            },
+            {
+              value: 31023,
+              name: '第二产业',
+              label: {
+                color: '#ffffff',
+              },
+              itemStyle: {
+                color: {
+                  type: 'radial',
+                  x: 0.6,
+                  y: 0,
+                  r: 1,
+                  colorStops: [{
+                    offset: 0, color: 'rgba(0,255,0,0.8)' // 0% 处的颜色
+                  }, {
+                    offset: 1, color: 'rgba(0,255,0,0.2)' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              }
+            },
+            { value: 23544, 
+              name: '第三产业', 
+              label: {
+                color: '#ffffff',
+              },
+              itemStyle: {
+                color: {
+                  type: 'radial',
+                  x: 1,
+                  y: 0.9,
+                  r: 1,
+                  colorStops: [{
+                    offset: 0, color: 'rgba(0,0,255,0.8)' // 0% 处的颜色
+                  }, {
+                    offset: 1, color: 'rgba(0,0,255,0.2)' // 100% 处的颜色
+                  }],
+                  global: false // 缺省为 false
+                }
+              }
+            },
+          ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
         }
-    ]
+      ]
     }
    return option
   }

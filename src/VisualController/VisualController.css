@@ -20,34 +20,50 @@
   margin: 1px 0 0 15px !important;
 }
 
+.red {
+  border: 1px solid rgb(20,20,20);
+}
+
+.green {
+  border: 1px solid rgb(20,20,20);
+}
+
+.blue {
+  border: 1px solid rgb(20,20,20);
+}
+
 .red.ant-switch-checked {
-  background-color: #ff0000 !important;
+  background-image: linear-gradient(90deg,red , black);
 }
 
 .green.ant-switch-checked {
-  background-color: #00ff00 !important;
+  background-image: linear-gradient(90deg,green , black);
 }
 
 .blue.ant-switch-checked {
-  background-color: #0000ff !important;
+  background-image: linear-gradient(90deg,blue , black);
 }
 
 .dimension {
   margin: -43px 0 0 50px !important;
 }
 
+.dimension.ant-switch {
+  background-color: rgba(0,0,0, 0.5);
+}
+
 .icon2d {
   width: 15px;
   height: 15px;
   position: relative;
-  left: 35px;
-  top: -2px;
+  left: 50px;
+  top: -3px;
 }
 
 .icon3d {
-  width: 19px;
-  height: 19px;
+  width: 13px;
+  height: 17px;
   position: relative;
-  left: 20px;
-  top: -18px;
+  left: 11px;
+  top: -22px;
 }
