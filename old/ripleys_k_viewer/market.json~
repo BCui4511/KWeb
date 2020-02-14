@@ -1,0 +1,78 @@
+{
+  "title": "jg.csv", 
+  "url": "http://localhost:29512", 
+  "latlonbox": {
+    "max": {
+      "location": [
+        29.99819096367597, 
+        106.86505126953125
+      ]
+    }, 
+    "min": {
+      "location": [
+        29.365829569662966, 
+        106.37698974609375
+      ]
+    }
+  }, 
+  "tilesurl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png", 
+  "heatmapmaxlevel": 25, 
+  "div": {
+    "info": {
+      "opacity": 0.9, 
+      "padding": 0, 
+      "z-index": 1, 
+      "right": "1ch", 
+      "color": "white", 
+      "position": "absolute", 
+      "top": "1em", 
+      "height": "1em"
+    }, 
+    "Date": {
+      "opacity": 0.8, 
+      "bottom": "1em", 
+      "height": "10em", 
+      "width": "75%", 
+      "z-index": 1, 
+      "position": "absolute", 
+      "background-color": "#555", 
+      "left": "1ch"
+    }, 
+    "Industry": {
+      "opacity": 0.8, 
+      "right": "1ch", 
+      "logaxis": false, 
+      "height": "29em", 
+      "width": "58ch", 
+      "z-index": 1, 
+      "displaynumcat": 20, 
+      "margin-left": "32ch", 
+      "position": "absolute", 
+      "alpha_order": true, 
+      "top": "3em", 
+      "background-color": "#555"
+    }, 
+    "Type": {
+      "opacity": 0.8, 
+      "right": "1ch", 
+      "logaxis": false, 
+      "height": "19em", 
+      "width": "58ch", 
+      "z-index": 1, 
+      "displaynumcat": 20, 
+      "margin-left": "12ch", 
+      "position": "absolute", 
+      "alpha_order": true, 
+      "top": "33em", 
+      "background-color": "#555"
+    }, 
+    "location": {
+      "padding": 0, 
+      "width": "100%", 
+      "z-index": 0, 
+      "float": "left", 
+      "margin": 0, 
+      "height": "100%"
+    }
+  }
+}

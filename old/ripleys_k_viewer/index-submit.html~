@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- fonts --!>
+    <link href='Open+Sans+300.css'
+	  rel='stylesheet' type='text/css'>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="cache-control" content="no-store">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> -->
+    <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css">
+    <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/> -->
+    <link rel="stylesheet" href="leaflet.css"/>
+    <link rel="stylesheet" href="lib/leaflet.draw/leaflet.draw.css"/>
+    <link rel="stylesheet" href="nanocube2.css"/>
+
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Start of scripts-->
+    <!-- jQuery, Leaflet, Underscore includes -->
+    <!-- <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+    <script src="jquery-1.11.2.min.js"></script>
+    <script src="jquery.mobile-1.4.5.min.js"></script>
+
+    <script src="bootstrap.min.js"></script>
+    <script src="jquery.bootstrap-autohidingnavbar.min.js"></script>
+
+    <!-- <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script> -->
+    <script src="d3.v3.js" charset="utf-8"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet-src.js"></script> -->
+    <script src="leaflet-src.js"></script>
+    <script src="lib/leaflet.draw/leaflet.draw-src.js"></script>
+    <script src="lib/colorbrewer.js"></script>
+
+    <!-- Custom includes -->
+    <script src="nanocube3.js"></script>
+    <script src="TileLatLngUtils.js"></script>
+
+    <script src="NanocubeLayer.js"></script>
+    <script src="Timeseries.js"></script>
+    <script src="GroupedBarChart.js"></script>
+    <script src="MultiDonutChart.js"></script>
+
+    <script src="QueryConstraint.js"></script>
+    <script src="Variables.js"></script>
+    <script src="Model.js"></script>
+
+    <script src="init.js"></script>
+
+    <script src="comsub.js"></script>
+    <script src="50.js"></script>
+    <script src="42.js"></script>
+
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+
+    <!-- Main -->
+    <script>
+      //main
+     function getURLParameter(sParam){
+         var sPageURL = window.location.search.substring(1);
+         var sURLVariables = sPageURL.split('&');
+         for (var i = 0; i < sURLVariables.length; i++){
+             var sParameterName = sURLVariables[i].split('=');
+             if (sParameterName[0] == sParam){
+	         return sParameterName[1];
+             }
+         }
+     }
+
+     $(function(){
+       var conf = getURLParameter('config') ||
+          window.location.hash.substring(1);
+
+       $.getJSON(conf+".json", function(config){
+         initPage(config);
+         initNanocube(config);
+       }).fail(function(){throw new Error("Fail to get or parse "+conf);});
+     });
+
+    //autohide navbar when mouseout
+    /*
+    $(function(){
+      $(".navbar-fixed-top").css({"opacity" : 0}).hover(function(){
+        $(this).stop().animate({"opacity" : 1}, 200);
+        }, function(){
+        $(this).stop().animate({"opacity" : 0}, 100);
+      });
+    });
+    */
+    </script>
+
+  <style>
+    #kTable {
+      position: absolute;
+      top: 518px;
+      width: 733px;
+      color: #fff;
+      text-align: center;
+     
+    }
+    #kTable.td{
+      font-family: "黑体";
+    }
+    #kButton{
+      position:absolute;
+      top:555px;
+      right:40px;
+      width:120px;
+      height: 30px;
+      border-color: rgba(0,0,0,0);
+      border-radius: 5px;
+    }
+  </style>
+
+  <style>
+    #wholeTable {
+      width: 333px;
+      height: 640px;
+      position: absolute;
+      right: 8px;
+      top: 3px;
+      background-color: rgba(85, 85, 85, 0.8);
+      color: #fff;
+      padding: 10px;
+      z-index: 100000;
+    }
+
+    #subTable1 {
+      width: 313px;
+      padding-left: 5px;
+      height: 74px;
+      border: solid 1px #fff;
+      background-color: rgba(0, 0, 0, 0);
+      text-align: center;
+
+    }
+
+    #subTable2 {
+      width: 313px;
+      padding-left: 5px;
+      height: 78px;
+      border: solid 1px #fff;
+      background-color: rgba(0, 0, 0, 0);
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    #subTable3 {
+      width: 313px;
+      padding-left: 5px;
+      height: 116px;
+      border: solid 1px #fff;
+      background-color: rgba(0, 0, 0, 0);
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    #subTable4 {
+      width: 313px;
+      padding-left: 5px;
+      height: 226px;
+      border: solid 1px #fff;
+      background-color: rgba(0, 0, 0, 0);
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    #subTable5 {
+      width: 313px;
+      padding-left: 5px;
+      height: 90px;
+      border: solid 1px #fff;
+      background-color: rgba(0, 0, 0, 0);
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    #wholeTable input[type="text"] {
+      display: inline-block;
+      height: 17px;
+      width: 80px;
+      margin: 2px;
+    }
+
+    #wholeTable input {
+      border-radius: 4px;
+      border: 0px;
+      color: #000;
+    }
+
+    #wholeTable span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    #wholeTable button, #wholeTable select{
+      color: #000;
+    }
+
+  </style>
+  </head>
+
+  <body>
+    <div id="wholeTable">
+    <div id="subTable1">
+      <span>Study Area</span>
+      <br/>
+      <div style="text-align: left;margin-left:0px ;">
+        <input type="radio" name="table1" value="city">City
+        <select id="citySelect">
+          <option value="city1" selected="selected">Wuhan</option>
+        </select>
+        <br/>
+        <input type="radio" name="table1" value="geometry">Geometry
+        <select id="geoSelect">
+          <option value="geo1" selected="selected">Rectangle</option>
+        </select>
+      </div>
+    </div>
+    <div id="subTable2">
+      <span>Study Druation</span>
+      <br/>
+      <div style="margin-left:0px ;">
+        <input type="text" name="startTime"> -
+        <input type="text" name="endTime">
+        <br/>
+        <button id="subTable2Button" style="margin-top:5px; border-radius: 4px;">Get duration from the line chart</button>
+      </div>
+    </div>
+    <div id="subTable3">
+      <span>Point Data</span>
+      <br/>
+      <div style="text-align: left;margin-left:0px ;">
+        <input type="radio" name="table3" value="enterprisePOI">Enterprise POI
+        <br/>
+        <input type="radio" name="table3" value="CSTR">Generated points under CSTR
+        <br/>
+        <input type="radio" name="table3" value="customData">Custom Data
+        <br/>
+        <input type="file" id="upload" name="upload" style="color:#fff; height: 20px; border-radius: 0px;width: 180px;display: inline-block;;" />
+        <input type="submit" value="upload" style="margin-left: 0px;" />
+      </div>
+    </div>
+    <div id="subTable4">
+      <span>Space-time Ripley’s K function Parameters</span>
+      <br/>
+      <div style="text-align: left;margin-left:0px;margin-top:5px;">
+        Data Size
+        <input type="text" name="" value="200000">
+        <br/> Max Spatial Distance (m)
+        <input type="text" name="" value="20000">
+        <br/> Max Temporal Distance
+        <input type="text" name="" value="20">
+        <br/> Temporal Unit
+        <input type="text" name="" value="month">
+        <br/> Spatial Step
+        <input type="text" name="" value="20">
+        <br/> Temporal Step
+        <input type="text" name="" value="20">
+        <br/> Simulation Method
+        <select id="citySelect">
+          <option value="city1" selected="selected">Random Permutation</option>
+        </select>
+        <br/>Simulation Times
+        <input type="text" name="" value="100">
+      </div>
+    </div>
+    <div id="subTable5">
+      <span>Cluster Parameters</span>
+      <br/>
+      <div style="text-align: left;margin-left:0px ;">
+        Number of Executors
+        <input type="text" name="" value="8">
+        <br/> CPU Cores for Each Executor
+        <input type="text" name="" value="8">
+        <br/> Memory for Each Executor (G)
+        <input type="text" name="" value="16">
+      </div>
+    </div>
+    <input type="submit" value="submit" style="margin-left: 130px;margin-top: 2px;" />
+  </div>
+
+    <div id="nc-container" style="position:absolute; width:100%; bottom:0; overflow:auto;">
+      <div data-role="page" id="pageone">
+        <div data-role="panel" id="ctrlpanel" data-display="reveal">
+          <div data-role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true">
+              <li data-role="list-divider">底图</li>
+              <li>
+                <div class="ui-field-contain">
+                  <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>透明度:</legend>
+                    <button id="map-op-btn-inc" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-inline ui-btn-icon-notext"
+                            data-mini="true" style="margin-left:15px;">plus</button>
+                    <button id="map-op-btn-dec" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-minus
+                            ui-btn-inline ui-btn-icon-notext"
+                            data-mini="true">minus</button>
+                  </fieldset>
+                </div>
+              </li>
+
+              <!-- customed item
+              <li data-role="list-divider">Political map of China</li>
+              <li>
+                <div class="ui-field-contain">
+                  <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Opacity:</legend>
+                    <button id="polimap-op-btn-inc" class="ui-shadow ui-btn ui-corner-all ui-icon-plus ui-btn-inline ui-btn-icon-notext"
+                            data-mini="true" style="margin-left:15px;">plus</button>
+                    <button id="polimap-op-btn-dec" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-minus
+                            ui-btn-inline ui-btn-icon-notext"
+                            data-mini="true">minus</button>
+                  </fieldset>
+                </div>
+              </li> -->
+
+              <li data-role="list-divider">热力图</li>
+              <li>
+                <div class="ui-field-contain">
+                  <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>透明度:</legend>
+                    <button id="heatmap-op-btn-inc" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-plus
+                            ui-btn-inline
+                            ui-btn-icon-notext" data-mini="true" style="margin-left:15px;">
+                      plus</button>
+                    <button id="heatmap-op-btn-dec" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-minus
+                            ui-btn-inline
+                            ui-btn-icon-notext" data-mini="true">minus</button>
+                  </fieldset>
+                </div>
+              </li>
+
+              <li>
+                <div class="ui-field-contain">
+                  <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>网格大小:</legend>
+                    <button id="heatmap-rad-btn-inc" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-plus
+                            ui-btn-inline
+                            ui-btn-icon-notext" style="margin-left:15px;">plus</button>
+                    <button id="heatmap-rad-btn-dec" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-minus
+                            ui-btn-inline
+                            ui-btn-icon-notext">minus</button>
+                  </fieldset>
+                </div>
+              </li>
+              <!-- switch for geojson layer -->
+
+
+              <li>
+                <div class="ui-field-contain">
+                  <label for="flip-grid" style="margin-right:20px;">瓦片分界线:</label>
+                  <select name="flip-grid" id="flip-grid"
+                          data-role="slider"
+                          data-mini="true">
+                    <option value="off">Off</option>
+                    <option value="on">On</option>
+                  </select>
+                </div>
+              </li>
+
+              <!-- <li>
+                <div class="ui-field-contain">
+                  <label for="flip-log" style="margin-right:20px;">Log:</label>
+                  <select name="flip-log" id="flip-log"
+                          data-role="slider"
+                          data-mini="true">
+                    <option value="off">Off</option>
+                    <option value="on" selected>On</option>
+                  </select>
+                </div>
+              </li>
+
+              <li>
+                <div class="ui-field-contain">
+                  <label for="flip-refresh" style="margin-right:20px;">Streaming:</label>
+                  <select name="flip-refresh" id="flip-refresh"
+                          data-role="slider"
+                          data-mini="true">
+                    <option value="off" selected>Off</option>
+                    <option value="on">On</option>
+                  </select>
+                </div>
+              </li> -->
+
+              <li data-role="list-divider">时序统计图</li>
+              <li>
+                <!-- <div class="ui-field-contain">
+                  <label for="flip-gts">Global:</label>
+                  <select name="flip-gts" id="flip-gts"
+                          data-role="slider"
+                          data-mini="true" disabled="disabled">
+                    <option value="off">Off</option>
+                    <option value="on" selected>On</option>
+                  </select>
+                </div> -->
+                <div class="ui-field-contain">
+                  <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>时间粒度:</legend>
+                    <button id="tbinsize-btn-inc" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-plus
+                            ui-btn-inline
+                            ui-btn-icon-notext" data-mini="true" style="margin-left:15px;">
+                      plus</button>
+                    <button id="tbinsize-btn-dec" class="ui-shadow
+                            ui-btn ui-corner-all ui-icon-minus
+                            ui-btn-inline
+                            ui-btn-icon-notext" data-mini="true">minus</button>
+                  </fieldset>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- keyboard instructions -->
+          <a href="#popupBasic" data-rel="popup" class="ui-btn
+             ui-corner-all ui-shadow ui-btn-inline" data-mini="true"
+             data-transition="pop">快捷键</a>
+          <div data-role="popup" id="popupBasic">
+            <h4>底图: </h4>
+            <p>
+              <code>d</code>: 降低透明度 (看起来更暗)<br />
+              <code>b</code>: 增加透明度 (看起来更亮)<br />
+            </p>
+            <h4>热力图</h4>
+            <p>
+              <code>&lt;</code>: 降低透明度<br />
+              <code>&gt;</code>: 增加透明度<br />
+              <code>,</code>: 缩小网格大小<br />
+              <code>.</code>: 增大网格大小<br />
+            </p>
+            <!--
+            <h4>Boundary</h4>
+            <p>
+              <code>p</code>: Toggle the display of Boundary layer
+              which shows Chinese administrative division.
+            </p>
+            <h4>Hu Line</h4>
+            <p>
+              <code>h</code>: Toggle the display of Hu Line layer
+              which divides the area of China into two roughly equal parts.
+            </p>
+            -->
+            <h4>时序统计图</h4>
+            <p>
+              <code>g</code>: 切换全局与自选区域的时序统计结果
+            </p>
+          </div>
+        </div>
+
+        <div id="maincontent" data-role="content" >
+          <div id="panelbtn">
+            <a href="#ctrlpanel" class="ui-btn ui-icon-carat-r
+               ui-btn-icon-notext
+               ui-corner-all">No text</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="kresult/testdata.js"></script>
+    <script type="text/javascript" src="kresult/showmain.js"></script>
+  </body>
+</html>
