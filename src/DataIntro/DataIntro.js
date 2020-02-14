@@ -41,9 +41,9 @@ export default class DataIntro extends React.Component {
                   y: 0.6,
                   r: 1,
                   colorStops: [{
-                    offset: 0, color: 'rgba(255,0,0,0.8)' // 0% 处的颜色
+                    offset: 0, color: 'rgba(255,70,70,1)' // 0% 处的颜色
                   }, {
-                    offset: 1, color: 'rgba(255,0,0,0.2)' // 100% 处的颜色
+                    offset: 1, color: 'rgba(255,70,70,0.3)' // 100% 处的颜色
                   }],
                   global: false // 缺省为 false
                 }
@@ -62,9 +62,9 @@ export default class DataIntro extends React.Component {
                   y: 0,
                   r: 1,
                   colorStops: [{
-                    offset: 0, color: 'rgba(0,255,0,0.8)' // 0% 处的颜色
+                    offset: 0, color: 'rgba(70,255,70,1)' // 0% 处的颜色
                   }, {
-                    offset: 1, color: 'rgba(0,255,0,0.2)' // 100% 处的颜色
+                    offset: 1, color: 'rgba(70,255,70,0.3)' // 100% 处的颜色
                   }],
                   global: false // 缺省为 false
                 }
@@ -79,12 +79,12 @@ export default class DataIntro extends React.Component {
                 color: {
                   type: 'radial',
                   x: 1,
-                  y: 0.9,
+                  y: 1,
                   r: 1,
                   colorStops: [{
-                    offset: 0, color: 'rgba(0,0,255,0.8)' // 0% 处的颜色
+                    offset: 0, color: 'rgba(70,70,255,1)' // 0% 处的颜色
                   }, {
-                    offset: 1, color: 'rgba(0,0,255,0.2)' // 100% 处的颜色
+                    offset: 1, color: 'rgba(70,70,255,0.3)' // 100% 处的颜色
                   }],
                   global: false // 缺省为 false
                 }

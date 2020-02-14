@@ -41,7 +41,7 @@ export default class App extends React.Component {
       <div>
         <Map dimension={this.state.dimension} colorObj={this.state.colorObj} isRShow={this.state.isRShow}/>
         <div className="left-moudles">
-          <ModuleContainer  title="点数据展示模块" >
+          <ModuleContainer  title="点数据展示控制" >
             <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor}/>
           </ModuleContainer>
           <ModuleContainer  title="点数据概况" >
