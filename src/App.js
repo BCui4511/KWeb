@@ -12,7 +12,7 @@ import Result from './Result/Result';
 import Map from './Map/Map';
 import Layer from './Layer/Layer';
 import Nano from './Nano/Nano';
-
+import NanoCharts from './NanoCharts/NanoCharts';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -53,7 +53,7 @@ export default class App extends React.Component {
           <Nano />
         </div>
         <div className={`left-moudles ${layer === 2 ? 'bottom' : ''}`}>
-          <ModuleContainer  title="点数据概况" close="true">
+          <ModuleContainer  title="点数据概况" close="true" hidden={layer === 2}>
             <DataIntro />
           </ModuleContainer>
           <ModuleContainer  title="点数据展示控制" hidden={layer === 2}>
@@ -62,7 +62,10 @@ export default class App extends React.Component {
           <ModuleContainer  title="图层选择" >
             <Layer changeLayer={this.changeLayer}/>
           </ModuleContainer>
-           <ModuleContainer  title="时间统计" autowidth="true" dark="true" hidden={layer === 1}>
+          <ModuleContainer  title="图层选择" autowidth="true" hidden={layer === 1}>
+            <NanoCharts />
+          </ModuleContainer>
+          <ModuleContainer  title="时间统计" autowidth="true" dark="true" hidden={layer === 1}>
             <DateStatistic />
           </ModuleContainer>
         </div>
