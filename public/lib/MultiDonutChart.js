@@ -36,7 +36,7 @@ function MultiDonutChart(name){
                           + $(id).height()/2 + ")");
 
     //add title
-    var title = this.svg.append("text").attr('x', -$(id).width()/2 + 20).attr('y', -$(id).height()/2 + 25).text(CN_CAT[name])
+    var title = this.svg.append("text").attr('x', -$(id).width()/2 + 60).attr('y', -$(id).height()/2 + 15).text(CN_CAT[name])
 	              .append("svg:title").text(function(d) { return "点击切换排序:按类别首字母/按类别数值由大至小"; });
 }
 
