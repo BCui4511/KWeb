@@ -28,6 +28,16 @@ export default class App extends React.Component {
         BContent: 3,
       },
       layer: 2,
+      params:{
+        KType: 'S',
+        DataCate1: 0,
+        DataCate2: 1,
+        SpatialMax: 2000,
+        TimeMax: 20,
+        SpatialStep: 20,
+        TimeStep: 20,
+        simuTime: 100,
+      },
     };
   };
   changeDimension = (isChecked) => {
@@ -41,6 +51,10 @@ export default class App extends React.Component {
   changeLayer = (layer) => {
     this.setState({layer: layer});
   };
+
+  updateParams = (params) => {
+    this.setState({params: params});
+  }
 
   render() {
     const layer = this.state.layer;
@@ -77,10 +91,10 @@ export default class App extends React.Component {
             <DataRange />
           </ModuleContainer>
           <ModuleContainer  right="true" title="参数选择" >
-            <Parameter />
+            <Parameter updateParams={this.updateParams}/>
           </ModuleContainer>
           <ModuleContainer  right="true" title="计算信息" >
-            <CalcuInfo />
+            <CalcuInfo params={this.state.params}/>
           </ModuleContainer>
           <ModuleContainer  right="true" title="结果展示" >
             <Result />
