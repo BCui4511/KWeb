@@ -27,7 +27,7 @@ export default class App extends React.Component {
         GContent: 2,
         BContent: 3,
       },
-      layer: 2,
+      layer: 1,
       params:{
         KType: 'S',
         DataCate1: 0,
