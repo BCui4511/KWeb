@@ -2,6 +2,7 @@ import React from 'react';
 import './CalcuInfo.css';
 import { Button, Progress } from 'antd';
 import { getURLWithParam } from '../common/tool';
+// import calResult from '../common/result.json';
 
 const CALCUSTATE = {
   BEFRORECALCU: 0,
@@ -31,7 +32,7 @@ export default class CalcuInfo extends React.Component {
     }
     const commitParam = {
       dataSize: 50000,
-      maxSpatialDistance: 40,
+      maxSpatialDistance: 20,
       maxTemporalDistance: 20,
       spatialStep: 20,
       temporalStep: 20,
@@ -43,15 +44,15 @@ export default class CalcuInfo extends React.Component {
 
     const urlParam = getURLWithParam(url, commitParam);
     console.log('request url', urlParam);
-
+    // 能正确请求到结果
     fetch(urlParam)
    .then((response) => response.json())
    .then((responseJson) => {
-     console.log(responseJson.maxSpatialDistance);
-    return responseJson.maxSpatialDistance;
+    this.props.getCalResult(responseJson);
+    console.log(responseJson.maxSpatialDistance);
    })
    .catch((error) => {
-    console.error(error);
+    console.error('请求计算结果出错', error);
    });
 
     this.setState({calcuState: CALCUSTATE.CALCUING, percent: 0}, this.changePercent);
@@ -65,6 +66,8 @@ export default class CalcuInfo extends React.Component {
       }, 50);
     } else{
       this.setState({calcuState: CALCUSTATE.FINISHED});
+      // 先使用示例数据
+      // this.props.getCalResult(calResult);
     }
   }
 

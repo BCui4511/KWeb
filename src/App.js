@@ -38,6 +38,7 @@ export default class App extends React.Component {
         TimeStep: 20,
         simuTime: 100,
       },
+      calResult: null,
     };
   };
   changeDimension = (isChecked) => {
@@ -54,6 +55,10 @@ export default class App extends React.Component {
 
   updateParams = (params) => {
     this.setState({params: params});
+  }
+
+  getCalResult = (calResult) => {
+    this.setState({calResult: calResult});
   }
 
   render() {
@@ -94,10 +99,10 @@ export default class App extends React.Component {
             <Parameter updateParams={this.updateParams}/>
           </ModuleContainer>
           <ModuleContainer  right="true" title="计算信息" >
-            <CalcuInfo params={this.state.params}/>
+            <CalcuInfo params={this.state.params} getCalResult={this.getCalResult}/>
           </ModuleContainer>
           <ModuleContainer  right="true" title="结果展示" >
-            <Result />
+            <Result calResult={this.state.calResult}/>
           </ModuleContainer>
         </div>
       </div>
