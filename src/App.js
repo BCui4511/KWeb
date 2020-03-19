@@ -66,7 +66,7 @@ export default class App extends React.Component {
     return (
       <div>
         <div className={layer === 2 ? 'hidden' : ''}>
-          <Map dimension={this.state.dimension} colorObj={this.state.colorObj} isRShow={this.state.isRShow} />
+          <Map dimension={this.state.dimension} colorObj={this.state.colorObj}/>
         </div>
         <div className={layer === 1 ? 'hidden' : ''}>
           <Nano />
