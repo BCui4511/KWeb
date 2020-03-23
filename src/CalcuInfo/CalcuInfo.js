@@ -27,8 +27,10 @@ export default class CalcuInfo extends React.Component {
     const {KType, DataCate, SpatialMax, TimeMax, SpatialStep, TimeStep, simuTime} = params;
     console.log(this.props.params);
     if(KType === 'Cross'){
-      params.DataCate[0] === params.DataCate[1] && alert('交叉K函数入参点数据类型不能相同');
-      return false;
+      if(params.DataCate[0] === params.DataCate[1]){
+        alert('交叉K函数入参点数据类型不能相同');
+        return false;
+      }
     }
     const commitParam = {
       dataSize: 50000,
