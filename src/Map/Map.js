@@ -23,9 +23,10 @@ let ID = 0;
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
+    this.jsonDataCache = {}
     this.state = {
       id: 0,
-      layers: this.getLayers(),
+      layers: this.getLayers()
     };
   };
   componentDidUpdate(prevProps){
@@ -59,6 +60,15 @@ export default class Map extends React.Component {
     return this.props.dimension === 3 ? [this.get3Dlayer()] : [this.get2Dlayer()];
   }
 
+  loadJsonData = (path) => {
+    let jsonData = this.jsonDataCache[path];
+    if(!jsonData) {
+      jsonData = require(`${path}`);
+      this.jsonDataCache[path] = jsonData;
+    }
+    return jsonData;
+  }
+
   getFillColorArray = (d) => {
     const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
     const r = isRShow ? d * 255 / 15 + 50 : 0;
@@ -78,7 +88,7 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = require('./data/95_2_' + this.props.scale + '_84.json');
+    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
     return new GeoJsonLayer({
       id: ID,
       data: jsonData,
@@ -108,7 +118,7 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = require('./data/95_2_' + this.props.scale + '_84.json');
+    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
     let gridData = jsonData.features;
     return new GridCellLayer({
       id: ID,
