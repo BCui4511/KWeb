@@ -75,7 +75,7 @@ export default class App extends React.Component {
           <ModuleContainer  title="点数据概况" close="true" hidden={layer === 2}>
             <DataIntro />
           </ModuleContainer>
-          <ModuleContainer  title="点数据展示控制" hidden={layer === 2}>
+          <ModuleContainer  title="展示控制" hidden={layer === 2}>
             <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor}/>
           </ModuleContainer>
           <ModuleContainer  title="图层选择" close="true">

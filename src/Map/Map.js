@@ -139,7 +139,7 @@ export default class Map extends React.Component {
           controller={true}
           layers={this.state.layers}
           >
-          <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} mapStyle={'mapbox://styles/mapbox/dark-v9'}/>
+          <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} mapStyle={'mapbox://styles/billcui/ck812rhuo0bv31iqs759izo8m'}/>
           { this._renderTooltip() }
           </DeckGL>
         </div>
