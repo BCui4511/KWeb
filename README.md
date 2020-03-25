@@ -3,7 +3,7 @@ web project for Ripley's K function
 
 ## demo运行截图
 ![多尺度多维度空间统计可视化](https://github.com/BCui4511/KWeb/blob/master/public/demo1.png)
-![响应式细粒度点数据热力图](https://github.com/BCui4511/KWeb/blob/master/public/demo1.png)
+![响应式细粒度点数据热力图](https://github.com/BCui4511/KWeb/blob/master/public/demo2.png)
 
 ### 前提，请安装好node和npm
 node version > 10.15.0
