@@ -19,17 +19,21 @@ const initialViewState = {
   bearing: 0
 };
 let ID = 0;
+let jsonData = require('./data/95_2_1_84.json')
 
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       id: 0,
-      layers: this.getLayers(),
+      layers: this.getLayers()
     };
   };
   componentDidUpdate(prevProps){
     if(this.isPropsChange(prevProps)){
+      if(this.props.scale !== prevProps.scale) {
+        jsonData = require(`./data/95_2_${this.props.scale}_84.json`)
+      }
       ID++;
       this.setState({layers: this.getLayers()});
     }
@@ -78,7 +82,6 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = require('./data/95_2_' + this.props.scale + '_84.json');
     return new GeoJsonLayer({
       id: ID,
       data: jsonData,
@@ -108,7 +111,6 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = require('./data/95_2_' + this.props.scale + '_84.json');
     let gridData = jsonData.features;
     return new GridCellLayer({
       id: ID,
