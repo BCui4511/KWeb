@@ -19,6 +19,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       dimension: 3,
+      scale: 1,
       colorObj: {
         isRShow: true, 
         isGShow: true,
@@ -27,7 +28,7 @@ export default class App extends React.Component {
         GContent: 2,
         BContent: 3,
       },
-      layer: 2,
+      layer: 1,
       params:{
         KType: 'S',
         DataCate1: 0,
@@ -49,6 +50,10 @@ export default class App extends React.Component {
     this.setState({colorObj: colorObject});
   };
 
+  changeScale = (scale) => {
+    this.setState({scale: scale});
+  }
+
   changeLayer = (layer) => {
     this.setState({layer: layer});
   };
@@ -66,7 +71,7 @@ export default class App extends React.Component {
     return (
       <div>
         <div className={layer === 2 ? 'hidden' : ''}>
-          <Map dimension={this.state.dimension} colorObj={this.state.colorObj}/>
+          <Map dimension={this.state.dimension} colorObj={this.state.colorObj} scale={this.state.scale}/>
         </div>
         <div className={layer === 1 ? 'hidden' : ''}>
           <Nano />
@@ -75,8 +80,8 @@ export default class App extends React.Component {
           <ModuleContainer  title="点数据概况" close="true" hidden={layer === 2}>
             <DataIntro />
           </ModuleContainer>
-          <ModuleContainer  title="展示控制" hidden={layer === 2}>
-            <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor}/>
+          <ModuleContainer  title="点数据展示控制" hidden={layer === 2}>
+            <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor} changeScale={this.changeScale}/>
           </ModuleContainer>
           <ModuleContainer  title="图层选择" close="true">
             <Layer changeLayer={this.changeLayer}/>
