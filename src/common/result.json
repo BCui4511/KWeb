@@ -1,4 +1,5 @@
 {
+    "KType": "ST",
     "maxSpatialDistance": 40,
     "maxTemporalDistance": 20,
     "temporalUnit": "MONTHS",

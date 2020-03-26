@@ -8,7 +8,6 @@ import 'echarts/lib/component/legend';
 import 'echarts/lib/component/markPoint';
 import ReactEcharts from 'echarts-for-react';
 import data from './confidence.json';
-import CalcuInfo from '../CalcuInfo/CalcuInfo';
 import 'echarts-gl';
 // import dataJson from '../common/result.json';
 
@@ -26,6 +25,7 @@ export default class Result extends React.Component {
 
   getOption = () => {
     // 普通
+    // 2D 可视化 数据为 ./confidence.json
     let option2D = {
       tooltip: {
         trigger: 'axis',
@@ -160,7 +160,7 @@ export default class Result extends React.Component {
     var kestArray = prepareData(kest);
     var kmaxArray = prepareData(kmax);
     var kminArray = prepareData(kmin);
-
+    // 三维的数据源是 ../common/result.json
     let option3D = {
       tooltip: {},
       legend: {
