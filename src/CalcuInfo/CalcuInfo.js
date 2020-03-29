@@ -50,6 +50,7 @@ export default class CalcuInfo extends React.Component {
     fetch(urlParam)
    .then((response) => response.json())
    .then((responseJson) => {
+     responseJson.time = new Date();
     this.props.getCalResult(responseJson);
     console.log(responseJson.maxSpatialDistance);
    })

@@ -6,19 +6,18 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/component/markPoint';
+import 'echarts-gl';
 import ReactEcharts from 'echarts-for-react';
 import data from './confidence.json';
-import 'echarts-gl';
-// import dataJson from '../common/result.json';
-import dataJson1 from '../common/result_1585471333000.json';
-import dataJson2 from '../common/result_1585471422000.json';
+import dataJson from '../common/result.json';
 import './Result.css';
 
 const base = -data.reduce(function (min, val) {
   return Math.floor(Math.min(min, val.l));
 }, Infinity);
 let i = -160;
-let calResults = [dataJson1, dataJson2]
+dataJson.time = new Date();
+let calResults = [dataJson, dataJson, dataJson];
 
 export default class Result extends React.Component {
   constructor(props) {
@@ -171,9 +170,11 @@ export default class Result extends React.Component {
     var kmaxArray = prepareData(kmax);
     var kminArray = prepareData(kmin);
     // 三维的数据源是 ../common/result.json
+    let time  = dataJson.time
     let option3D = {
       title: {
-        text: dataJson.timestamp,
+        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}`+
+        `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes())}`,
         textStyle: {
           color:'#ccc',
           fontSize: 10
@@ -288,14 +289,26 @@ export default class Result extends React.Component {
     return option3D;
   }
 
+  fill0 = (number) => {
+    if (number < 10) {
+      return '0' + number;
+    } else {
+      return number.toString();
+    }
+  };
+
   render() {
     // const dataJson = this.props.calResult;
     return (<div>
       <h3>结果展示</h3>
-      <div className="charts-wrapper">
+      <div className="results-container">
         {
           calResults.map((data, key) => (
-          <ReactEcharts key={key} option={this.getOption(data)} theme="Imooc" style={{ height: '200px'}} />
+          <ReactEcharts 
+            key={key}
+            option={this.getOption(data)}
+            theme="Imooc"
+            style={{ height: '200px', width: '290px'}} />
           ))
         }
       </div>
