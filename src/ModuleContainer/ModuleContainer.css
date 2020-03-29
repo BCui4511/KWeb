@@ -37,6 +37,9 @@
   float: right;
   margin-left: 200px;
 }
+.right-module {
+  float: right;
+}
 .dark{
   background-color: rgba(0,0,0,0.4);
   color: white;
