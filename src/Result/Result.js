@@ -10,11 +10,15 @@ import ReactEcharts from 'echarts-for-react';
 import data from './confidence.json';
 import 'echarts-gl';
 // import dataJson from '../common/result.json';
+import dataJson1 from '../common/result_1585471333000.json';
+import dataJson2 from '../common/result_1585471422000.json';
+import './Result.css';
 
 const base = -data.reduce(function (min, val) {
   return Math.floor(Math.min(min, val.l));
 }, Infinity);
 let i = -160;
+let calResults = [dataJson1, dataJson2]
 
 export default class Result extends React.Component {
   constructor(props) {
@@ -23,7 +27,13 @@ export default class Result extends React.Component {
     };
   };
 
-  getOption = () => {
+  componentDidUpdate(prevProps){
+    if(this.props.calResult !== prevProps.calResult){
+      // calResults.push[this.props.calResult];
+    }
+  };
+
+  getOption = (dataJson) => {
     // 普通
     // 2D 可视化 数据为 ./confidence.json
     let option2D = {
@@ -139,7 +149,7 @@ export default class Result extends React.Component {
       }],
     };
     // 三维
-    const dataJson = this.props.calResult;
+    // const dataJson = this.props.calResult;
     var kest = dataJson.kest;
     var kmax = dataJson.kmax;
     var kmin = dataJson.kmin;
@@ -162,6 +172,15 @@ export default class Result extends React.Component {
     var kminArray = prepareData(kmin);
     // 三维的数据源是 ../common/result.json
     let option3D = {
+      title: {
+        text: dataJson.timestamp,
+        textStyle: {
+          color:'#ccc',
+          fontSize: 10
+        },
+        x: 'center',
+        y: 'bottom'
+      },
       tooltip: {},
       legend: {
         show: true,
@@ -270,12 +289,16 @@ export default class Result extends React.Component {
   }
 
   render() {
-    const dataJson = this.props.calResult;
-    return <div>
+    // const dataJson = this.props.calResult;
+    return (<div>
       <h3>结果展示</h3>
-      {
-        dataJson && <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: '200px' }} />
-      }
-    </div>
+      <div className="charts-wrapper">
+        {
+          calResults.map((data, key) => (
+          <ReactEcharts key={key} option={this.getOption(data)} theme="Imooc" style={{ height: '200px'}} />
+          ))
+        }
+      </div>
+    </div>)
   }
 }
