@@ -8,16 +8,27 @@ import 'echarts/lib/component/legend';
 import 'echarts/lib/component/markPoint';
 import 'echarts-gl';
 import ReactEcharts from 'echarts-for-react';
-import data from './confidence.json';
+// import data from './confidence.json';
 import dataJson from '../common/result.json';
 import './Result.css';
 
+const conData = [];
+for (let i=0;i<dataJson.kest.length;i++) {
+  conData[i] = {
+    value: dataJson.kest[i][2],
+    l: dataJson.kmin[i][2],
+    u: dataJson.kmax[i][2],
+  };
+}
+console.log(conData);
+const data=conData;
 const base = -data.reduce(function (min, val) {
   return Math.floor(Math.min(min, val.l));
 }, Infinity);
-let i = -160;
+console.log(base);
+
 dataJson.time = new Date();
-let calResults = [dataJson, dataJson, dataJson];
+let calResults = [dataJson, dataJson];
 
 export default class Result extends React.Component {
   constructor(props) {
@@ -26,16 +37,53 @@ export default class Result extends React.Component {
     };
   };
 
-  componentDidUpdate(prevProps){
-    if(this.props.calResult !== prevProps.calResult){
+  componentDidUpdate(prevProps) {
+    if (this.props.calResult !== prevProps.calResult) {
       // calResults.push[this.props.calResult];
     }
   };
 
+
+
   getOption = (dataJson) => {
+    let time = dataJson.time;
     // 普通
     // 2D 可视化 数据为 ./confidence.json
+
+    // 三维
+    // const dataJson = this.props.calResult;
+    var kest = dataJson.kest;
+    var kmax = dataJson.kmax;
+    var kmin = dataJson.kmin;
+    var maxSpaDis = dataJson.maxSpatialDistance;
+    var maxTimDis = dataJson.maxTemporalDistance;
+    //prepare data
+    var spatialNum = kest.length;
+    var temporalNum = kest[0].length;
+    const prepareData = (kest) => {
+      let dataArray = Array(spatialNum * temporalNum).fill(0);
+      for (let i = 0; i < spatialNum; i++) {
+        for (let j = 0; j < temporalNum; j++) {
+          dataArray[i * temporalNum + j] = [j * (maxTimDis / (temporalNum - 1)), i * (maxSpaDis / (spatialNum - 1)), kest[i][j]];
+        }
+      }
+      return dataArray;
+    }
+    var kestArray = prepareData(kest)[1];
+    var kmaxArray = prepareData(kmax)[1];
+    var kminArray = prepareData(kmin)[1];
+
     let option2D = {
+      title: {
+        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}` +
+          `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes()+Math.round(Math.random()*10))}`,
+        textStyle: {
+          color: '#ccc',
+          fontSize: 10
+        },
+        x: 'center',
+        y: 'bottom'
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -53,26 +101,27 @@ export default class Result extends React.Component {
           }
         },
         formatter: function (params) {
-          return params[2].value;
+          return params.value;
         }
       },
       grid: {
-        top: '3%',
+        top: 30,
         left: '3%',
-        right: '4%',
-        bottom: '3%',
+        right: 50,
+        bottom: 30,
         containLabel: true
       },
       xAxis: {
+        name: 'd',
         type: 'category',
-        data: data.map(function (item) {
-          return item.date;
+        data: data.map(function (item, index) {
+          return index*2;
         }),
         axisLabel: {
           formatter: function (value, idx) {
-            var date = new Date(value);
+            // var date = new Date(value);
             // return idx === 0 ? value : [date.getMonth() + 1, date.getDate()].join('-');
-            return i++;
+            return idx*2;
           }
         },
         splitLine: {
@@ -87,15 +136,16 @@ export default class Result extends React.Component {
 
       },
       yAxis: {
+        name: 'crossK(d)',
         axisLabel: {
           formatter: function (val) {
-            return (val - base);
+            return val;
           }
         },
         axisPointer: {
           label: {
             formatter: function (params) {
-              return ((params.value - base) * 100).toFixed(1) + '%';
+              return params.value;
             }
           }
         },
@@ -112,8 +162,8 @@ export default class Result extends React.Component {
       series: [{
         name: 'L',
         type: 'line',
-        data: data.map(function (item) {
-          return item.l + base;
+        data: data.map(function (item,index) {
+          return item.l-index*Math.random();
         }),
         lineStyle: {
           opacity: 0
@@ -123,8 +173,8 @@ export default class Result extends React.Component {
       }, {
         name: 'U',
         type: 'line',
-        data: data.map(function (item) {
-          return item.u - item.l;
+        data: data.map(function (item,index) {
+          return (item.u-item.l+index*Math.random());
         }),
         lineStyle: {
           opacity: 0
@@ -137,7 +187,7 @@ export default class Result extends React.Component {
       }, {
         type: 'line',
         data: data.map(function (item) {
-          return item.value + base;
+          return item.value;
         }),
         hoverAnimation: false,
         symbolSize: 6,
@@ -147,36 +197,13 @@ export default class Result extends React.Component {
         showSymbol: false
       }],
     };
-    // 三维
-    // const dataJson = this.props.calResult;
-    var kest = dataJson.kest;
-    var kmax = dataJson.kmax;
-    var kmin = dataJson.kmin;
-    var maxSpaDis = dataJson.maxSpatialDistance;
-    var maxTimDis = dataJson.maxTemporalDistance;
-    //prepare data
-    var spatialNum = kest.length;
-    var temporalNum = kest[0].length;
-    function prepareData(kest) {
-      let dataArray = Array(spatialNum * temporalNum).fill(0);
-      for (let i = 0; i < spatialNum; i++) {
-        for (let j = 0; j < temporalNum; j++) {
-          dataArray[i * temporalNum + j] = [j * (maxTimDis / (temporalNum - 1)), i * (maxSpaDis / (spatialNum - 1)), kest[i][j]];
-        }
-      }
-      return dataArray;
-    }
-    var kestArray = prepareData(kest);
-    var kmaxArray = prepareData(kmax);
-    var kminArray = prepareData(kmin);
     // 三维的数据源是 ../common/result.json
-    let time  = dataJson.time
     let option3D = {
       title: {
-        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}`+
-        `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes())}`,
+        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}` +
+          `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes())}`,
         textStyle: {
-          color:'#ccc',
+          color: '#ccc',
           fontSize: 10
         },
         x: 'center',
@@ -286,7 +313,7 @@ export default class Result extends React.Component {
       ]
     };
 
-    return option3D;
+    return option2D;
   }
 
   fill0 = (number) => {
@@ -304,11 +331,11 @@ export default class Result extends React.Component {
       <div className="results-container">
         {
           calResults.map((data, key) => (
-          <ReactEcharts 
-            key={key}
-            option={this.getOption(data)}
-            theme="Imooc"
-            style={{ height: '200px', width: '290px'}} />
+            <ReactEcharts
+              key={key}
+              option={this.getOption(data)}
+              theme="Imooc"
+              style={{ height: '200px', width: '290px' }} />
           ))
         }
       </div>
