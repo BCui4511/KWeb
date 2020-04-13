@@ -43,15 +43,15 @@ export default class VisualController extends React.Component {
   render() {
     // 获取滑块范围
     const slideParam = {
-      max: 10,
-      min: 1,
+      max: 20,
+      min: 10,
       step: 1,
     };
     const attriList = ['第一产业', '第二产业', '第三产业'];
     return <div>
       <h3>点数据展示模块</h3>
       <div className="option-name">尺度选择</div>
-      <Slider className="module-slider" max={slideParam.max} min={slideParam.min} step={slideParam.step} defaultValue={1}
+      <Slider className="module-slider" max={slideParam.max} min={slideParam.min} step={slideParam.step} defaultValue={15}
       onChange={this.changeScale}/>
       <div className="option-name">颜色设置</div>
       <div className="color-form">

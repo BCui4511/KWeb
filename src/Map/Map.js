@@ -12,9 +12,9 @@ import {StaticMap} from 'react-map-gl';
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYmlsbGN1aSIsImEiOiJjampsYjZpbzQwcm1mM3FwZmppejRzMmNiIn0.Ch9L9-zpzaC21Vm8yxoWpg';
 
 const initialViewState = {
-  longitude: 106.5,
-  latitude: 29.5,
-  zoom: 9,
+  longitude: 107.5,
+  latitude: 29.8,
+  zoom: 7,
   pitch: 0,
   bearing: 0
 };
@@ -71,15 +71,21 @@ export default class Map extends React.Component {
 
   getFillColorArray = (d) => {
     const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const r = isRShow ? d * 255 / 15 + 50 : 0;
-    const g = isGShow ?  d * 15 + 255 * Math.random() : 0;
-    const b = isBShow ? 255-d * 255 / 15: 0;
-    return [r, g, b, 180];
+    const indus1 = d.Join_Count || 0;
+    const indus2 = d.Join_Cou_1 || 0;
+    const indus3 = d.Join_Cou_2 || 0;
+    const r = isRShow ? indus1*255/500 : 0;
+    const g = isGShow ? indus2*255/500 : 0;
+    const b = isBShow ? indus3: 0;
+    return [r, g, b,  r+g+b > 0 ? 150 :0];
   } ;
 
   getElevationValue = (d) => {
     const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const value = (isRShow ? d : 0) +  (isGShow ? Math.abs((10-d)/3) : 0) +(isBShow ? 2 : 0);
+    const indus1 = d.Join_Count || 0;
+    const indus2 = d.Join_Cou_1 || 0;
+    const indus3 = d.Join_Cou_2 || 0;
+    const value = (isRShow ? indus1 : 0) +  (isGShow ? indus2 : 0) +(isBShow ? indus3 : 0);
     return value;
   }
 
@@ -88,7 +94,7 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
+    let jsonData = this.loadJsonData('./data/125_1_10000.json');
     return new GeoJsonLayer({
       id: ID,
       data: jsonData,
@@ -98,12 +104,13 @@ export default class Map extends React.Component {
       extruded: true,
       lineWidthScale: 20,
       lineWidthMinPixels: 2,
-      getFillColor: (d) => {return this.getFillColorArray(d.properties.GiZScore)},
+      getFillColor: (d) => {return this.getFillColorArray(d.properties)},
       getRadius: 100,
       getLineWidth: 1,
       getElevation: 30,
       onHover: ({color, index, x, y}) => {
-        const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
+        const properties = jsonData.features[index] && jsonData.features[index].properties;
+        const tooltip = `第一产业: ${properties&&properties.Join_Count} 第二产业: ${properties&&properties.Join_Cou_1}`;
         this.setState({
           hoveredMessage: tooltip,
           pointerX: x,
@@ -118,7 +125,7 @@ export default class Map extends React.Component {
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
+    let jsonData = this.loadJsonData('./data/125_1_10000.json');
     let gridData = jsonData.features;
     return new GridCellLayer({
       id: ID,
@@ -126,15 +133,24 @@ export default class Map extends React.Component {
       pickable: true,
       extruded: true,
       cellSize: 1000 * this.props.scale,
-      elevationScale: 1000,
+      elevationScale: 100,
       getPosition: (d) => {
-        const coords = d.geometry.coordinates[0][0];
-        return coords;
+        if(!d.geometry){
+          return null;
+        }
+        const coords = d.geometry.coordinates[0];
+        let mincoords = coords[0];
+        coords.forEach(item => {
+          mincoords[0] = item[0]<mincoords[0] ? item[0]: mincoords[0];
+          mincoords[1] = item[1]<mincoords[1] ? item[1]: mincoords[1];
+        });
+        return mincoords;
       },
-      getFillColor: (d) => {return this.getFillColorArray(d.properties.GiZScore);},
-      getElevation: (d) => {return this.getElevationValue(d.properties.GiZScore);},
+      getFillColor: (d) => {return this.getFillColorArray(d.properties);},
+      getElevation: (d) => {return this.getElevationValue(d.properties);},
       onHover: ({color, index, x, y}) => {
-        const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
+        const properties = jsonData.features[index] && jsonData.features[index].properties;
+        const tooltip = `第一产业: ${properties&& (properties.Join_Count?properties.Join_Count:0)} 第二产业: ${properties&&(properties.Join_Count?properties.Join_Cou_1:0)}`;
         this.setState({
           hoveredMessage: tooltip,
           pointerX: x,
