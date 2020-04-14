@@ -10,14 +10,16 @@ import 'echarts-gl';
 import ReactEcharts from 'echarts-for-react';
 // import data from './confidence.json';
 import dataJson from '../common/result.json';
+import dataJson1 from '../common/result1.json';
+
 import './Result.css';
 
 const conData = [];
-for (let i=0;i<dataJson.kest.length;i++) {
+for (let i=0;i<dataJson1.kest.length;i++) {
   conData[i] = {
-    value: dataJson.kest[i][2],
-    l: dataJson.kmin[i][2],
-    u: dataJson.kmax[i][2],
+    value: dataJson1.kest[i],
+    l: dataJson1.kmin[i],
+    u: dataJson1.kmax[i],
   };
 }
 console.log(conData);
@@ -28,7 +30,7 @@ const base = -data.reduce(function (min, val) {
 console.log(base);
 
 dataJson.time = new Date();
-let calResults = [dataJson, dataJson];
+let calResults = [dataJson];
 
 export default class Result extends React.Component {
   constructor(props) {
@@ -107,7 +109,7 @@ export default class Result extends React.Component {
       grid: {
         top: 30,
         left: '3%',
-        right: 50,
+        right: 30,
         bottom: 30,
         containLabel: true
       },
@@ -115,13 +117,13 @@ export default class Result extends React.Component {
         name: 'd',
         type: 'category',
         data: data.map(function (item, index) {
-          return index*2;
+          return index;
         }),
         axisLabel: {
           formatter: function (value, idx) {
             // var date = new Date(value);
             // return idx === 0 ? value : [date.getMonth() + 1, date.getDate()].join('-');
-            return idx*2;
+            return idx;
           }
         },
         splitLine: {
@@ -335,7 +337,7 @@ export default class Result extends React.Component {
               key={key}
               option={this.getOption(data)}
               theme="Imooc"
-              style={{ height: '200px', width: '290px' }} />
+              style={{ height: '300px', width: '390px' }} />
           ))
         }
       </div>
