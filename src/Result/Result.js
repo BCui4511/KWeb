@@ -11,23 +11,26 @@ import ReactEcharts from 'echarts-for-react';
 import data from './confidence.json';
 import dataJson from '../common/result.json';
 import './Result.css';
+import { isEqual } from 'lodash';
+import moment from 'moment'
 
 const base = -data.reduce(function (min, val) {
   return Math.floor(Math.min(min, val.l));
 }, Infinity);
 let i = -160;
-dataJson.time = new Date();
-let calResults = [dataJson, dataJson, dataJson];
-
+// 测试数据
+let calResults = [{ ...dataJson, time: new Date(2020, 1, 1) }, { ...dataJson, time: new Date(2020, 2, 1) }, { ...dataJson, time: new Date(2020, 3, 1) },
+{ ...dataJson, time: new Date(2020, 3, 2) }, { ...dataJson, time: new Date(2020, 3, 3) }, { ...dataJson, time: new Date(2020, 3, 4) }];
 export default class Result extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      thumbnailKeys: []
     };
   };
 
-  componentDidUpdate(prevProps){
-    if(this.props.calResult !== prevProps.calResult){
+  componentDidUpdate(prevProps) {
+    if (!isEqual(this.props.calResult, prevProps.calResult)) {
       // calResults.push[this.props.calResult];
     }
   };
@@ -48,7 +51,6 @@ export default class Result extends React.Component {
             shadowBlur: 0,
             shadowOffsetX: 0,
             shadowOffsetY: 0,
-
             color: '#222'
           }
         },
@@ -170,18 +172,9 @@ export default class Result extends React.Component {
     var kmaxArray = prepareData(kmax);
     var kminArray = prepareData(kmin);
     // 三维的数据源是 ../common/result.json
-    let time  = dataJson.time
+    let time = dataJson.time
     let option3D = {
-      title: {
-        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}`+
-        `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes())}`,
-        textStyle: {
-          color:'#ccc',
-          fontSize: 10
-        },
-        x: 'center',
-        y: 'bottom'
-      },
+      title: {},
       tooltip: {},
       legend: {
         show: true,
@@ -287,30 +280,60 @@ export default class Result extends React.Component {
     };
 
     return option3D;
-  }
+  };
 
-  fill0 = (number) => {
-    if (number < 10) {
-      return '0' + number;
-    } else {
-      return number.toString();
-    }
+  handleMinimize = (key) => {
+    const { thumbnailKeys } = this.state;
+    this.setState({ thumbnailKeys: [...new Set([...thumbnailKeys, key])] });
+  };
+
+  handelMaximize = (key) => {
+    const { thumbnailKeys } = this.state;
+    const set = new Set(thumbnailKeys);
+    set.delete(key);
+    this.setState({ thumbnailKeys: [...set] });
   };
 
   render() {
     // const dataJson = this.props.calResult;
+    const { thumbnailKeys } = this.state;
     return (<div>
       <h3>结果展示</h3>
-      <div className="results-container">
-        {
-          calResults.map((data, key) => (
-          <ReactEcharts 
-            key={key}
-            option={this.getOption(data)}
-            theme="Imooc"
-            style={{ height: '200px', width: '290px'}} />
-          ))
-        }
+      <div className="allCharts">
+        <div className="results-container">
+          {
+            calResults
+              .filter(data => thumbnailKeys.findIndex(key => key === data.time) === -1)
+              .map((data, key) => (
+                <div className="chart-wrapper" key={key}>
+                  <ReactEcharts
+                    option={this.getOption(data)}
+                    theme="Imooc"
+                    style={{ height: '200px', width: '290px' }} />
+                  <span>{moment(data.time).format('YYYY-MM-DD h:mm:ss')}</span>
+                  <span className="minimize" onClick={() => this.handleMinimize(data.time)}>缩小</span>
+                </div>
+              ))
+          }
+        </div>
+        <div className={`thumbnails-container ${thumbnailKeys.length === 0 ? 'unshow' : ''}`}>
+          {
+            calResults
+              .filter(data => thumbnailKeys.findIndex(key => key === data.time) !== -1)
+              .map((data, key) => (
+                <div className="thumbnail-wrapper" key={key} title={moment(data.time).format('YYYY-MM-DD h:mm:ss')}
+                  onClick={() => this.handelMaximize(data.time)}>
+                  <ReactEcharts
+                    option={this.getOption(data)}
+                    theme="Imooc"
+                    style={{
+                      height: '200px', width: '290px', transform: 'scale(0.2)', transformOrigin: '0 0'
+                    }} />
+                  <div className="mask"></div>
+                </div>
+              ))
+          }
+        </div>
       </div>
     </div>)
   }
