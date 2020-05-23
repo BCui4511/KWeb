@@ -104,11 +104,11 @@ export default class Map extends React.Component {
       getElevation: 30,
       onHover: ({color, index, x, y}) => {
         const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
-        this.setState({
-          hoveredMessage: tooltip,
-          pointerX: x,
-          pointerY: y,
-        });
+        // this.setState({
+        //   hoveredMessage: tooltip,
+        //   pointerX: x,
+        //   pointerY: y,
+        // });
       }
     });
   }
@@ -134,12 +134,12 @@ export default class Map extends React.Component {
       getFillColor: (d) => {return this.getFillColorArray(d.properties.GiZScore);},
       getElevation: (d) => {return this.getElevationValue(d.properties.GiZScore);},
       onHover: ({color, index, x, y}) => {
-        const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
-        this.setState({
-          hoveredMessage: tooltip,
-          pointerX: x,
-          pointerY: y,
-        });
+        // const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
+        // this.setState({
+        //   hoveredMessage: tooltip,
+        //   pointerX: x,
+        //   pointerY: y,
+        // });
       }
     });
   }
