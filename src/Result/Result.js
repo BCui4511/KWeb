@@ -10,6 +10,7 @@ import 'echarts-gl';
 import ReactEcharts from 'echarts-for-react';
 // import data from './confidence.json';
 import dataJson from '../common/result.json';
+import dataJson1 from '../common/result1.json';
 import './Result.css';
 import { isEqual } from 'lodash';
 import moment from 'moment'
@@ -19,8 +20,7 @@ import moment from 'moment'
 // }, Infinity);
 // let i = -160;
 // 测试数据
-let calResults = [{ ...dataJson, time: new Date(2020, 1, 1) }, { ...dataJson, time: new Date(2020, 2, 1) }, { ...dataJson, time: new Date(2020, 3, 1) },
-{ ...dataJson, time: new Date(2020, 3, 2) }, { ...dataJson, time: new Date(2020, 3, 3) }, { ...dataJson, time: new Date(2020, 3, 4) }];
+let calResults = [{ ...dataJson, time: new Date(2020, 1, 1) }, { ...dataJson1, time: new Date(2020, 2, 1) }];
 export default class Result extends React.Component {
   constructor(props) {
     super(props);
@@ -67,10 +67,10 @@ export default class Result extends React.Component {
         }
       },
       grid: {
-        top: 30,
+        top: 10,
         left: '3%',
-        right: 30,
-        bottom: 30,
+        right: 10,
+        bottom: 10,
         containLabel: true
       },
       xAxis: {
