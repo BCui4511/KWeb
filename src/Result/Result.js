@@ -11,81 +11,42 @@ import ReactEcharts from 'echarts-for-react';
 // import data from './confidence.json';
 import dataJson from '../common/result.json';
 import dataJson1 from '../common/result1.json';
-
 import './Result.css';
+import { isEqual } from 'lodash';
+import moment from 'moment'
 
-const conData = [];
-for (let i=0;i<dataJson1.kest.length;i++) {
-  conData[i] = {
-    value: dataJson1.kest[i],
-    l: dataJson1.kmin[i],
-    u: dataJson1.kmax[i],
-  };
-}
-console.log(conData);
-const data=conData;
-const base = -data.reduce(function (min, val) {
-  return Math.floor(Math.min(min, val.l));
-}, Infinity);
-console.log(base);
-
-dataJson.time = new Date();
-let calResults = [dataJson];
-
+// const base = -data.reduce(function (min, val) {
+//   return Math.floor(Math.min(min, val.l));
+// }, Infinity);
+// let i = -160;
+// 测试数据
+let calResults = [{ ...dataJson, time: new Date(2020, 1, 1) }, { ...dataJson1, time: new Date(2020, 2, 1) }];
 export default class Result extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      thumbnailKeys: []
     };
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.calResult !== prevProps.calResult) {
+    if (!isEqual(this.props.calResult, prevProps.calResult)) {
       // calResults.push[this.props.calResult];
     }
   };
 
-
-
-  getOption = (dataJson) => {
-    let time = dataJson.time;
-    // 普通
-    // 2D 可视化 数据为 ./confidence.json
-
-    // 三维
-    // const dataJson = this.props.calResult;
-    var kest = dataJson.kest;
-    var kmax = dataJson.kmax;
-    var kmin = dataJson.kmin;
-    var maxSpaDis = dataJson.maxSpatialDistance;
-    var maxTimDis = dataJson.maxTemporalDistance;
-    //prepare data
-    var spatialNum = kest.length;
-    var temporalNum = kest[0].length;
-    const prepareData = (kest) => {
-      let dataArray = Array(spatialNum * temporalNum).fill(0);
-      for (let i = 0; i < spatialNum; i++) {
-        for (let j = 0; j < temporalNum; j++) {
-          dataArray[i * temporalNum + j] = [j * (maxTimDis / (temporalNum - 1)), i * (maxSpaDis / (spatialNum - 1)), kest[i][j]];
-        }
-      }
-      return dataArray;
+  getOption2D = (dataJson) => {
+    const conData = [];
+    for (let i = 0; i < dataJson.kest.length; i++) {
+      conData[i] = {
+        value: dataJson.kest[i],
+        l: dataJson.kmin[i],
+        u: dataJson.kmax[i],
+      };
     }
-    var kestArray = prepareData(kest)[1];
-    var kmaxArray = prepareData(kmax)[1];
-    var kminArray = prepareData(kmin)[1];
-
+    const data = conData;
+    // 空间、交叉k函数
     let option2D = {
-      title: {
-        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}` +
-          `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes()+Math.round(Math.random()*10))}`,
-        textStyle: {
-          color: '#ccc',
-          fontSize: 10
-        },
-        x: 'center',
-        y: 'bottom'
-      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -98,7 +59,6 @@ export default class Result extends React.Component {
             shadowBlur: 0,
             shadowOffsetX: 0,
             shadowOffsetY: 0,
-
             color: '#222'
           }
         },
@@ -107,10 +67,10 @@ export default class Result extends React.Component {
         }
       },
       grid: {
-        top: 30,
+        top: 10,
         left: '3%',
-        right: 30,
-        bottom: 30,
+        right: 10,
+        bottom: 10,
         containLabel: true
       },
       xAxis: {
@@ -121,8 +81,6 @@ export default class Result extends React.Component {
         }),
         axisLabel: {
           formatter: function (value, idx) {
-            // var date = new Date(value);
-            // return idx === 0 ? value : [date.getMonth() + 1, date.getDate()].join('-');
             return idx;
           }
         },
@@ -138,7 +96,7 @@ export default class Result extends React.Component {
 
       },
       yAxis: {
-        name: 'crossK(d)',
+        name: `${dataJson.KType}(d)`,
         axisLabel: {
           formatter: function (val) {
             return val;
@@ -164,8 +122,8 @@ export default class Result extends React.Component {
       series: [{
         name: 'L',
         type: 'line',
-        data: data.map(function (item,index) {
-          return item.l-index*Math.random();
+        data: data.map(function (item, index) {
+          return item.l - index * Math.random();
         }),
         lineStyle: {
           opacity: 0
@@ -175,8 +133,8 @@ export default class Result extends React.Component {
       }, {
         name: 'U',
         type: 'line',
-        data: data.map(function (item,index) {
-          return (item.u-item.l+index*Math.random());
+        data: data.map(function (item, index) {
+          return (item.u - item.l + index * Math.random());
         }),
         lineStyle: {
           opacity: 0
@@ -199,18 +157,147 @@ export default class Result extends React.Component {
         showSymbol: false
       }],
     };
+    // // 置信度可视化
+    // let option2D = {
+    //   tooltip: {
+    //     trigger: 'axis',
+    //     axisPointer: {
+    //       type: 'cross',
+    //       animation: false,
+    //       label: {
+    //         backgroundColor: '#ccc',
+    //         borderColor: '#aaa',
+    //         borderWidth: 1,
+    //         shadowBlur: 0,
+    //         shadowOffsetX: 0,
+    //         shadowOffsetY: 0,
+    //         color: '#222'
+    //       }
+    //     },
+    //     formatter: function (params) {
+    //       return params[2].value;
+    //     }
+    //   },
+    //   grid: {
+    //     top: '3%',
+    //     left: '3%',
+    //     right: '4%',
+    //     bottom: '3%',
+    //     containLabel: true
+    //   },
+    //   xAxis: {
+    //     type: 'category',
+    //     data: data.map(function (item) {
+    //       return item.date;
+    //     }),
+    //     axisLabel: {
+    //       formatter: function (value, idx) {
+    //         var date = new Date(value);
+    //         // return idx === 0 ? value : [date.getMonth() + 1, date.getDate()].join('-');
+    //         return i++;
+    //       }
+    //     },
+    //     splitLine: {
+    //       show: false
+    //     },
+    //     boundaryGap: false,
+    //     axisLine: {
+    //       lineStyle: {
+    //         color: '#ffffff',
+    //       }
+    //     },
+
+    //   },
+    //   yAxis: {
+    //     axisLabel: {
+    //       formatter: function (val) {
+    //         return (val - base);
+    //       }
+    //     },
+    //     axisPointer: {
+    //       label: {
+    //         formatter: function (params) {
+    //           return ((params.value - base) * 100).toFixed(1) + '%';
+    //         }
+    //       }
+    //     },
+    //     splitNumber: 3,
+    //     splitLine: {
+    //       show: false
+    //     },
+    //     axisLine: {
+    //       lineStyle: {
+    //         color: '#ffffff',
+    //       }
+    //     },
+    //   },
+    //   series: [{
+    //     name: 'L',
+    //     type: 'line',
+    //     data: data.map(function (item) {
+    //       return item.l + base;
+    //     }),
+    //     lineStyle: {
+    //       opacity: 0
+    //     },
+    //     stack: 'confidence-band',
+    //     symbol: 'none'
+    //   }, {
+    //     name: 'U',
+    //     type: 'line',
+    //     data: data.map(function (item) {
+    //       return item.u - item.l;
+    //     }),
+    //     lineStyle: {
+    //       opacity: 0
+    //     },
+    //     areaStyle: {
+    //       color: '#ccc'
+    //     },
+    //     stack: 'confidence-band',
+    //     symbol: 'none'
+    //   }, {
+    //     type: 'line',
+    //     data: data.map(function (item) {
+    //       return item.value + base;
+    //     }),
+    //     hoverAnimation: false,
+    //     symbolSize: 6,
+    //     itemStyle: {
+    //       color: '#c23531'
+    //     },
+    //     showSymbol: false
+    //   }],
+    // };
+    return option2D;
+  }
+
+  // 三维
+  // const dataJson = this.props.calResult;
+  getOption3D = (dataJson) => {
+    var kest = dataJson.kest;
+    var kmax = dataJson.kmax;
+    var kmin = dataJson.kmin;
+    var maxSpaDis = dataJson.maxSpatialDistance;
+    var maxTimDis = dataJson.maxTemporalDistance;
+    //prepare data
+    var spatialNum = kest.length;
+    var temporalNum = kest[0].length;
+    function prepareData(kest) {
+      let dataArray = Array(spatialNum * temporalNum).fill(0);
+      for (let i = 0; i < spatialNum; i++) {
+        for (let j = 0; j < temporalNum; j++) {
+          dataArray[i * temporalNum + j] = [j * (maxTimDis / (temporalNum - 1)), i * (maxSpaDis / (spatialNum - 1)), kest[i][j]];
+        }
+      }
+      return dataArray;
+    }
+    var kestArray = prepareData(kest);
+    var kmaxArray = prepareData(kmax);
+    var kminArray = prepareData(kmin);
     // 三维的数据源是 ../common/result.json
     let option3D = {
-      title: {
-        text: `${time.getFullYear()}-${this.fill0(time.getMonth() + 1)}-${this.fill0(time.getDate())}` +
-          `\n${this.fill0(time.getHours())}:${this.fill0(time.getMinutes())}`,
-        textStyle: {
-          color: '#ccc',
-          fontSize: 10
-        },
-        x: 'center',
-        y: 'bottom'
-      },
+      title: {},
       tooltip: {},
       legend: {
         show: true,
@@ -314,32 +401,69 @@ export default class Result extends React.Component {
       }
       ]
     };
-
-    return option2D;
+    return option3D;
   }
 
-  fill0 = (number) => {
-    if (number < 10) {
-      return '0' + number;
+  getOption = (dataJson) => {
+    if (dataJson.KType === "ST") {
+      return this.getOption3D(dataJson);
     } else {
-      return number.toString();
+      return this.getOption2D(dataJson);
     }
+  };
+
+  handleMinimize = (key) => {
+    const { thumbnailKeys } = this.state;
+    this.setState({ thumbnailKeys: [...new Set([...thumbnailKeys, key])] });
+  };
+
+  handelMaximize = (key) => {
+    const { thumbnailKeys } = this.state;
+    const set = new Set(thumbnailKeys);
+    set.delete(key);
+    this.setState({ thumbnailKeys: [...set] });
   };
 
   render() {
     // const dataJson = this.props.calResult;
+    const { thumbnailKeys } = this.state;
     return (<div>
       <h3>结果展示</h3>
-      <div className="results-container">
-        {
-          calResults.map((data, key) => (
-            <ReactEcharts
-              key={key}
-              option={this.getOption(data)}
-              theme="Imooc"
-              style={{ height: '300px', width: '390px' }} />
-          ))
-        }
+      <div className="allCharts">
+        <div className="results-container">
+          {
+            calResults
+              .filter(data => thumbnailKeys.findIndex(key => key === data.time) === -1)
+              .map((data, key) => (
+                <div className="chart-wrapper" key={key}>
+                  <ReactEcharts
+                    option={this.getOption(data)}
+                    theme="Imooc"
+                    style={{ height: '200px', width: '290px' }} />
+                  <span>{moment(data.time).format('YYYY-MM-DD h:mm:ss')}</span>
+                  <span className="minimize" onClick={() => this.handleMinimize(data.time)}>缩小</span>
+                </div>
+              ))
+          }
+        </div>
+        <div className={`thumbnails-container ${thumbnailKeys.length === 0 ? 'unshow' : ''}`}>
+          {
+            calResults
+              .filter(data => thumbnailKeys.findIndex(key => key === data.time) !== -1)
+              .map((data, key) => (
+                <div className="thumbnail-wrapper" key={key} title={moment(data.time).format('YYYY-MM-DD h:mm:ss')}
+                  onClick={() => this.handelMaximize(data.time)}>
+                  <ReactEcharts
+                    option={this.getOption(data)}
+                    theme="Imooc"
+                    style={{
+                      height: '200px', width: '290px', transform: 'scale(0.2)', transformOrigin: '0 0'
+                    }} />
+                  <div className="mask"></div>
+                </div>
+              ))
+          }
+        </div>
       </div>
     </div>)
   }
