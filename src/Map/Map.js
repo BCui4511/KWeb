@@ -26,13 +26,16 @@ export default class Map extends React.Component {
     this.jsonDataCache = {}
     this.state = {
       id: 0,
-      layers: this.getLayers()
+      layers: null,
     };
   };
+  componentDidMount(){
+    this.getLayers();
+  }
   componentDidUpdate(prevProps){
     if(this.isPropsChange(prevProps)){
       ID++;
-      this.setState({layers: this.getLayers()});
+      this.getLayers();
     }
   } 
 
@@ -56,17 +59,24 @@ export default class Map extends React.Component {
   }
 
   getLayers = () => {
-    console.log(this.props.colorObj.isRShow);
-    return this.props.dimension === 3 ? [this.get3Dlayer()] : [this.get2Dlayer()];
+    const scale = this.props.scale;
+    let jsonData = this.jsonDataCache[scale];
+    if (!jsonData) {
+      this.loadJsonData(this.props.scale).then(() => {
+        this.setState({ layers: this.props.dimension === 3 ? [this.get3Dlayer(scale)] : [this.get2Dlayer(scale)] });
+      })
+    } else {
+      this.setState({ layers: this.props.dimension === 3 ? [this.get3Dlayer(scale)] : [this.get2Dlayer(scale)] });
+    }
   }
 
-  loadJsonData = (path) => {
-    let jsonData = this.jsonDataCache[path];
-    if(!jsonData) {
-      jsonData = require(`${path}`);
-      this.jsonDataCache[path] = jsonData;
-    }
-    return jsonData;
+  loadJsonData = (scale) => {
+    const url = "http://localhost:8011/grid?scale=" + scale;
+    return fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.jsonDataCache[scale] = responseJson;
+      })
   }
 
   getFillColorArray = (d) => {
@@ -83,12 +93,12 @@ export default class Map extends React.Component {
     return value;
   }
 
-  get2Dlayer = () => {
+  get2Dlayer = (scale) => {
     const {isRShow, isGShow, isBShow} = this.props.colorObj;
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
+    let jsonData = this.jsonDataCache[scale];
     return new GeoJsonLayer({
       id: ID,
       data: jsonData,
@@ -113,19 +123,18 @@ export default class Map extends React.Component {
     });
   }
 
-  get3Dlayer = () => {
+  get3Dlayer = (scale) => {
     const {isRShow, isGShow, isBShow} = this.props.colorObj;
     if(!(isRShow || isGShow || isBShow)) {
       return null;
     }
-    let jsonData = this.loadJsonData('./data/95_2_' + this.props.scale + '_84.json');
-    let gridData = jsonData.features;
+    let gridData = this.jsonDataCache[scale].features;
     return new GridCellLayer({
       id: ID,
       data: gridData,
       pickable: true,
       extruded: true,
-      cellSize: 1000 * this.props.scale,
+      cellSize: 1000 * scale,
       elevationScale: 1000,
       getPosition: (d) => {
         const coords = d.geometry.coordinates[0][0];
