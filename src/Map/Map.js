@@ -30,6 +30,7 @@ export default class Map extends React.Component {
     };
   };
   componentDidMount(){
+    ID++;
     this.getLayers();
   }
   componentDidUpdate(prevProps){
