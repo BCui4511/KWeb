@@ -1,6 +1,7 @@
 import React from 'react';
 import { Radio } from 'antd';
 import './Layer.css';
+import intl from 'react-intl-universal';
 
 export default class Layer extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class Layer extends React.Component {
     };
     return (
       <div>
-        <h3>图层选择</h3>
+        <h3>{intl.get('LAYER_OPTIONS')}</h3>
         <Radio.Group onChange={this.onChange} value={this.state.value}>
           <Radio style={radioStyle} value={1}>
             Deckgl

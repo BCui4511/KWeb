@@ -7,10 +7,11 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/component/markPoint';
 import ReactEcharts from 'echarts-for-react';
+import intl from 'react-intl-universal';
 
 export default class DataIntro extends React.Component {
 
-  getOption =()=> {
+  getOption = () => {
     let option = {
       tooltip: {
         trigger: 'item',
@@ -70,8 +71,9 @@ export default class DataIntro extends React.Component {
                 }
               }
             },
-            { value: 23544, 
-              name: '第三产业', 
+            {
+              value: 23544,
+              name: '第三产业',
               label: {
                 color: '#ffffff',
               },
@@ -101,13 +103,13 @@ export default class DataIntro extends React.Component {
         }
       ]
     }
-   return option
+    return option
   }
 
   render() {
     return <div>
-        <h3>数据概况</h3>
-        <ReactEcharts option={this.getOption()} theme="Imooc"  style={{height:'200px'}}/>
-      </div>
+      <h3>{intl.get('POI_OVERVIEW')}</h3>
+      <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: '200px' }} />
+    </div>
   }
 }

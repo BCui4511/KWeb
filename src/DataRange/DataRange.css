@@ -1,9 +1,9 @@
 .data-range .option-name {
   display: inline-block;
   position: relative;
-  left: -100px;
+  left: 10px;
   top: -5px;
-  margin: 8px 20px 0 0;
+  float: left;
 }
 
 .data-range .data-select {

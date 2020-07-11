@@ -10,6 +10,7 @@ import ReactEcharts from 'echarts-for-react';
 import data from './confidence.json';
 import 'echarts-gl';
 // import dataJson from '../common/result.json';
+import intl from 'react-intl-universal';
 
 const base = -data.reduce(function (min, val) {
   return Math.floor(Math.min(min, val.l));
@@ -272,7 +273,7 @@ export default class Result extends React.Component {
   render() {
     const dataJson = this.props.calResult;
     return <div>
-      <h3>结果展示</h3>
+      <h3>{intl.get('RESULT_DISPLAY')}</h3>
       {
         dataJson && <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: '200px' }} />
       }

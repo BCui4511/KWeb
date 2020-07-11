@@ -13,6 +13,12 @@ import Map from './Map/Map';
 import Layer from './Layer/Layer';
 import Nano from './Nano/Nano';
 import NanoCharts from './NanoCharts/NanoCharts';
+import intl from 'react-intl-universal';
+
+const locales = {
+  "en": require('./locales/en-US.json'),
+  "zh": require('./locales/zh-CN.json'),
+};
 
 export default class App extends React.Component {
   constructor(props) {
@@ -21,7 +27,7 @@ export default class App extends React.Component {
       dimension: 3,
       scale: 10,
       colorObj: {
-        isRShow: true, 
+        isRShow: true,
         isGShow: true,
         isBShow: true,
         RContent: 1,
@@ -29,7 +35,7 @@ export default class App extends React.Component {
         BContent: 3,
       },
       layer: 1,
-      params:{
+      params: {
         KType: 'S',
         DataCate1: 0,
         DataCate2: 1,
@@ -40,74 +46,97 @@ export default class App extends React.Component {
         simuTime: 100,
       },
       calResult: null,
+      initDone: false
     };
   };
+  componentDidMount() {
+    let lang = (navigator.language || navigator.browserLanguage).toLowerCase();
+    if (lang.indexOf('zh') >= 0) {
+      // 假如浏览器语言是中文
+      localStorage.setItem("defaultLng", "zh")
+    } else {
+      // 假如浏览器语言是其它语言
+      localStorage.setItem("defaultLng", "en")
+    }
+    this.loadLocales();
+  }
+
+  loadLocales() {
+    intl.init({
+      currentLocale: localStorage.getItem('locale') || localStorage.getItem("defaultLng") || 'zh',
+      locales,
+    })
+      .then(() => {
+        this.setState({ initDone: true });
+      });
+  }
+
   changeDimension = (isChecked) => {
-    this.setState({dimension : isChecked ? 3 : 2});
+    this.setState({ dimension: isChecked ? 3 : 2 });
   };
 
   changeColor = (colorObject) => {
-    this.setState({colorObj: colorObject});
+    this.setState({ colorObj: colorObject });
   };
 
   changeScale = (scale) => {
-    this.setState({scale: scale});
+    this.setState({ scale: scale });
   }
 
   changeLayer = (layer) => {
-    this.setState({layer: layer});
+    this.setState({ layer: layer });
   };
 
   updateParams = (params) => {
-    this.setState({params: params});
+    this.setState({ params: params });
   }
 
   getCalResult = (calResult) => {
-    this.setState({calResult: calResult});
+    this.setState({ calResult: calResult });
   }
 
   render() {
     const layer = this.state.layer;
     return (
-      <div>
+      this.state.initDone && <div>
         <div className={layer === 2 ? 'hidden' : ''}>
-          <Map dimension={this.state.dimension} colorObj={this.state.colorObj} scale={this.state.scale}/>
+          <Map dimension={this.state.dimension} colorObj={this.state.colorObj} scale={this.state.scale} />
         </div>
         <div className={layer === 1 ? 'hidden' : ''}>
           <Nano />
         </div>
         <div className={`left-moudles ${layer === 2 ? 'bottom' : ''}`}>
-          <ModuleContainer  title="点数据概况" close="true" hidden={layer === 2}>
+          <ModuleContainer title={intl.get('POI_OVERVIEW')} close="true" hidden={layer === 2}>
             <DataIntro />
           </ModuleContainer>
-          <ModuleContainer  title="展示控制" hidden={layer === 2}>
-            <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor} changeScale={this.changeScale}/>
+          <ModuleContainer title={intl.get('CONTROL_PANEL')} hidden={layer === 2}>
+            <VisualController changeDimension={this.changeDimension} changeColor={this.changeColor} changeScale={this.changeScale} />
           </ModuleContainer>
-          <ModuleContainer  title="图层选择" close="true">
-            <Layer changeLayer={this.changeLayer}/>
+          <ModuleContainer title={intl.get('LAYER_OPTIONS')} close="true">
+            <Layer changeLayer={this.changeLayer} />
           </ModuleContainer>
-          <ModuleContainer  title="属性选择" autowidth="true" hidden={layer === 1}>
+          <ModuleContainer title="属性选择" autowidth="true" hidden={layer === 1}>
             <NanoCharts />
           </ModuleContainer>
-          <ModuleContainer  title="时间统计" autowidth="true" dark="true" hidden={layer === 1}>
+          <ModuleContainer title="时间统计" autowidth="true" dark="true" hidden={layer === 1}>
             <DateStatistic />
           </ModuleContainer>
         </div>
         <div className="right-moudles">
-          <ModuleContainer  right="true" title="数据源" close="true">
+          <ModuleContainer right="true" title={intl.get('DATA_SOURCE')} close="true">
             <DataSource />
           </ModuleContainer>
-          <ModuleContainer  right="true" title="研究范围" close="true">
+          <ModuleContainer right="true" title={intl.get('ST_RANGE')} close="true">
             <DataRange />
           </ModuleContainer>
-          <ModuleContainer  right="true" title="参数选择" >
-            <Parameter updateParams={this.updateParams}/>
+          <ModuleContainer right="true" title={intl.get('PARAMETER_SETTINGS')} >
+            <Parameter updateParams={this.updateParams} />
           </ModuleContainer>
-          <ModuleContainer  right="true" title="计算信息" >
-            <CalcuInfo params={this.state.params} getCalResult={this.getCalResult}/>
+          <ModuleContainer right="true" title={intl.get('COMPUTING_INFO')} >
+            <CalcuInfo params={this.state.params} getCalResult={this.getCalResult} />
           </ModuleContainer>
-          <ModuleContainer  right="true" title="结果展示" close="true" autowidth="true">
-            <Result calResult={this.state.calResult}/>
+          <ModuleContainer right="true" title={intl.get('RESULT_DISPLAY')} close="true" autowidth="true">
+            <Result calResult={this.state.calResult} />
           </ModuleContainer>
         </div>
       </div>

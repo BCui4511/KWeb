@@ -5,14 +5,21 @@
     text-align:left;
     margin-left:5px;
     /* margin-top:10px; */
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
 }
 .Parameter-Select{
-    position:absolute;
-    left: 100px;
+    /* position: relative; */
+    /* left: 100px; */
     /* top:15px; */
 }
 .Parameter-Unit-Select{
-    position:absolute;
-    left: 200px;
+    /* position: relative; */
+    /* left: 200px; */
     /* top:15px; */
+    margin-left: 6px;
+}
+.paramter-title {
+    width: 90px;
 }
