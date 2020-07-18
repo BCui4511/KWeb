@@ -46,7 +46,8 @@ export default class App extends React.Component {
         simuTime: 100,
       },
       calResult: null,
-      initDone: false
+      initDone: false,
+      langButton: localStorage.defaultLng === 'zh' ? 'English' : '中文'
     };
   };
   componentDidMount() {
@@ -95,6 +96,17 @@ export default class App extends React.Component {
     this.setState({ calResult: calResult });
   }
 
+  changeLanguage = () => {
+    let lang = intl.options.currentLocale;
+    if (lang === 'en') {
+      this.setState({ langButton: 'English' })
+      intl.options.currentLocale = 'zh'
+    } else {
+      this.setState({ langButton: '中文' })
+      intl.options.currentLocale = 'en'
+    }
+  }
+
   render() {
     const layer = this.state.layer;
     return (
@@ -106,6 +118,7 @@ export default class App extends React.Component {
           <Nano />
         </div>
         <div className={`left-moudles ${layer === 2 ? 'bottom' : ''}`}>
+          <div className="language-change" onClick={this.changeLanguage}>{this.state.langButton}</div>
           <ModuleContainer title={intl.get('POI_OVERVIEW')} close="true" hidden={layer === 2}>
             <DataIntro />
           </ModuleContainer>
