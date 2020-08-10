@@ -71,31 +71,43 @@ export default class Map extends React.Component {
   }
 
   loadJsonData = (scale) => {
-    const url = "http://localhost:8011/grid?scale=" + scale;
+    // const url = "http://localhost:8011/grid?scale=" + scale;
+    const url = "http://localhost:8080/nanocubeGrid?hostname=http%3A%2F%2Flocalhost%3A29512%2F&level=" + scale;
     return fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
+        // this.jsonDataCache[scale] = {
+        //   ...rest, features: features.map((f) => {
+        //     return { ...f, geometry: { ...f.geometry, coordinates: [f.geometry.coordinates] } }
+        //   })
         this.jsonDataCache[scale] = responseJson;
-      })
+      });
+    // return new Promise((resolve) => {
+    //   let temp = require('./95_2_1_84.json');
+    //   temp.features = temp.features.slice(7, 8);
+    //   this.jsonDataCache[1] = temp;
+    //   // this.jsonDataCache[1] = require('./95_2_1_84.json');
+    //   resolve();
+    // });
   }
 
   getFillColorArray = (d) => {
-    const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const r = isRShow ? d * 255 / 15 + 50 : 0;
-    const g = isGShow ?  d * 15 + 255 * Math.random() : 0;
-    const b = isBShow ? 255-d * 255 / 15: 0;
+    const { isRShow, isGShow, isBShow, RContent, GContent, BContent } = this.props.colorObj;
+    const r = isRShow ? d.PIValue * 255 / 15 + 50 : 0;
+    const g = isGShow ? d.TIValue * 15 + 255 * Math.random() : 0;
+    const b = isBShow ? 255 - d.SIValue * 255 / 15 : 0;
     return [r, g, b, 180];
-  } ;
+  };
 
   getElevationValue = (d) => {
-    const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.props.colorObj;
-    const value = (isRShow ? d : 0) +  (isGShow ? Math.abs((10-d)/3) : 0) +(isBShow ? 2 : 0);
+    const { isRShow, isGShow, isBShow, RContent, GContent, BContent } = this.props.colorObj;
+    const value = (isRShow ? d.PIValue : 0) + (isGShow ? d.TIValue : 0) + (isBShow ? d.SIValue : 0);
     return value;
   }
 
   get2Dlayer = (scale) => {
-    const {isRShow, isGShow, isBShow} = this.props.colorObj;
-    if(!(isRShow || isGShow || isBShow)) {
+    const { isRShow, isGShow, isBShow } = this.props.colorObj;
+    if (!(isRShow || isGShow || isBShow)) {
       return null;
     }
     let jsonData = this.jsonDataCache[scale];
@@ -108,7 +120,7 @@ export default class Map extends React.Component {
       extruded: true,
       lineWidthScale: 20,
       lineWidthMinPixels: 2,
-      getFillColor: (d) => {return this.getFillColorArray(d.properties.GiZScore)},
+      getFillColor: (d) => { return this.getFillColorArray(d.properties) },
       getRadius: 100,
       getLineWidth: 1,
       getElevation: 30,
@@ -134,16 +146,16 @@ export default class Map extends React.Component {
       data: gridData,
       pickable: true,
       extruded: true,
-      cellSize: 1000 * scale,
+      // cellSize: scale / 1000,
       elevationScale: 1000,
       getPosition: (d) => {
         const coords = d.geometry.coordinates[0][0];
         return coords;
       },
-      getFillColor: (d) => {return this.getFillColorArray(d.properties.GiZScore);},
-      getElevation: (d) => {return this.getElevationValue(d.properties.GiZScore);},
-      onHover: ({color, index, x, y}) => {
-        // const tooltip = jsonData.features[index] && jsonData.features[index].properties.GiZScore;
+      getFillColor: (d) => { return this.getFillColorArray(d.properties); },
+      getElevation: (d) => { return this.getElevationValue(d.properties); },
+      onHover: ({ color, index, x, y }) => {
+        // const tooltip = jsonData.features[index] && jsonData.features[index].properties.PIValue;
         // this.setState({
         //   hoveredMessage: tooltip,
         //   pointerX: x,

@@ -43,8 +43,8 @@ export default class VisualController extends React.Component {
   render() {
     // 获取滑块范围
     const slideParam = {
-      max: 10,
-      min: 1,
+      max: 20,
+      min: 10,
       step: 1,
     };
     const attriList = ['第一产业', '第二产业', '第三产业'];

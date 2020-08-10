@@ -19,7 +19,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       dimension: 3,
-      scale: 1,
+      scale: 10,
       colorObj: {
         isRShow: true, 
         isGShow: true,
