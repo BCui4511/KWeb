@@ -3,6 +3,7 @@ import { Slider, Switch, Select } from 'antd';
 import './VisualController.css';
 import icon2d from './img/2d.png';
 import icon3d from './img/3d.png';
+import intl from 'react-intl-universal';
 
 export default class VisualController extends React.Component {
   constructor(props) {
@@ -22,18 +23,18 @@ export default class VisualController extends React.Component {
   }
 
   changeColor = () => {
-    const {isRShow, isGShow, isBShow, RContent, GContent, BContent} = this.state;
-    this.props.changeColor({isRShow, isGShow, isBShow, RContent, GContent, BContent});
+    const { isRShow, isGShow, isBShow, RContent, GContent, BContent } = this.state;
+    this.props.changeColor({ isRShow, isGShow, isBShow, RContent, GContent, BContent });
   }
 
   changeRS = (isChecked) => {
-    this.setState({isRShow: isChecked}, this.changeColor);
+    this.setState({ isRShow: isChecked }, this.changeColor);
   }
   changeGS = (isChecked) => {
-    this.setState({isGShow: isChecked}, this.changeColor);
+    this.setState({ isGShow: isChecked }, this.changeColor);
   }
   changeBS = (isChecked) => {
-    this.setState({isBShow: isChecked}, this.changeColor);
+    this.setState({ isBShow: isChecked }, this.changeColor);
   }
 
   changeScale = (value) => {
@@ -49,41 +50,41 @@ export default class VisualController extends React.Component {
     };
     const attriList = ['第一产业', '第二产业', '第三产业'];
     return <div>
-      <h3>点数据展示模块</h3>
-      <div className="option-name">尺度选择</div>
+      <h3>{intl.get('POI_DISPLAY_MODULE')}</h3>
+      <div className="option-name">{intl.get('SCALE_OPTIONS')}</div>
       <Slider className="module-slider" max={slideParam.max} min={slideParam.min} step={slideParam.step} defaultValue={15}
-      onChange={this.changeScale}/>
-      <div className="option-name">颜色设置</div>
+        onChange={this.changeScale} />
+      <div className="option-name">{intl.get('COLOR_SETTINGS')}</div>
       <div className="color-form">
-        <Switch className="red" checkedChildren="红" unCheckedChildren="红" defaultChecked onChange={this.changeRS}/>
+        <Switch className="red" checkedChildren={intl.get('RED')} unCheckedChildren={intl.get('RED')} defaultChecked onChange={this.changeRS} />
         <Select className="attri-select" placeholder={attriList[0]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
             )
           }
-        </Select><br/>
-        <Switch className="green" checkedChildren="绿" unCheckedChildren="绿" defaultChecked onChange={this.changeGS}/>
+        </Select><br />
+        <Switch className="green" checkedChildren={intl.get('GREEN')} unCheckedChildren={intl.get('GREEN')} defaultChecked onChange={this.changeGS} />
         <Select className="attri-select" placeholder={attriList[1]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
             )
           }
-        </Select><br/>
-        <Switch className="blue" checkedChildren="蓝" unCheckedChildren="蓝" defaultChecked onChange={this.changeBS}/>
+        </Select><br />
+        <Switch className="blue" checkedChildren={intl.get('BLUE')} unCheckedChildren={intl.get('BLUE')} defaultChecked onChange={this.changeBS} />
         <Select className="attri-select" placeholder={attriList[2]}>
           {
             attriList.length && attriList.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
             )
           }
-        </Select><br/>
+        </Select><br />
       </div>
-      <div style={{margin: "100px 0 0 5px"}} className="option-name">维度选择</div>
-      <img src={icon2d} alt="2d icon" className="icon2d"/>
-      <Switch className="dimension" checkedChildren="3D" unCheckedChildren="2D" defaultChecked onChange={this.changeDimension}/>
-      <img src={icon3d} alt="3d icon" className="icon3d"/>
+      <div style={{ margin: "100px 0 0 5px" }} className="option-name">{intl.get('DIMENSION_OPTIONS')}</div>
+      <img src={icon2d} alt="2d icon" className="icon2d" />
+      <Switch className="dimension" checkedChildren="3D" unCheckedChildren="2D" defaultChecked onChange={this.changeDimension} />
+      <img src={icon3d} alt="3d icon" className="icon3d" />
     </div>
   }
 }

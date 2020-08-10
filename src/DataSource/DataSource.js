@@ -1,6 +1,7 @@
 import React from 'react';
 import './DataSource.css';
 import { Select, Upload, Button, Icon } from 'antd';
+import intl from 'react-intl-universal';
 
 export default class DataSource extends React.Component {
   render() {
@@ -26,21 +27,23 @@ export default class DataSource extends React.Component {
     // };
 
     return <div>
-        <h3>数据源</h3>
-        <div className="option-name">选择数据</div>
-        <Select className="data-select" placeholder={dataSources[0]}>
+      <h3>{intl.get('DATA_SOURCE')}</h3>
+      <div className="data-option">{intl.get('SELECT_DATA')}
+        <Select className="data-source-button" placeholder={dataSources[0]}>
           {
             dataSources.length && dataSources.map((item, index) => (
               <Select.Option key={index} value={item}>{item}</Select.Option>)
             )
           }
-        </Select><br/>
-        <div className="option-name">数据上传</div>
-        <Upload >
-          <Button style={{width: '150px'}}>
+        </Select>
+      </div>
+      <div className="data-option">{intl.get('UPLOAD_DATA')}
+        <Upload className="data-source-button" >
+          <Button style={{ width: '150px' }}>
             <Icon type="upload" /> Click to Upload
-          </Button>
+            </Button>
         </Upload>
       </div>
+    </div>
   }
 }
